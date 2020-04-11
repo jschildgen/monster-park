@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <!--<link rel="icon" href="">-->
+    <title>MonstER Park</title>
+    <link rel="stylesheet" href="css/foundation.min.css">
+    <link rel="stylesheet" href="css/animation.min.css">
+    <link rel="stylesheet" href="css/joint.min.css">
+    <link rel="stylesheet" href="css/app.min.css">
+    <link rel="stylesheet" href="css/fontawesome.min.css">
+</head>
+<body>
+
+<div class="ribbon clearfix hide-on-phones">
+    <div class="left">&nbsp;</div>
+    <a href="" class="menu-button red button" id="menu-button"></a>
+    <div class="title"><h1>MonstER Park</h1></div>
+    <div class="right">&nbsp;</div>
+    <div class="logo"><img src="images/oth.png" width="179" height="94" alt="SQL Island" ></div>
+</div>
+
+<div class="row show-on-phones">
+    <div class="columns twelve phone-logobar"><img src="images/oth.png" alt="SQL Island" width="120"></div>
+    <div class="columns twelve phone-titlebar"><h1>SQL Island</h1></div>
+    <a href="" class="menu-button button red mobile"></a>
+</div>
+
+<div class="menu-content">
+    <ul class="menu">
+        <li><a href="#" class="medium red button radius" id="joyride-button">Spielanleitung</a></li>
+        <li><a href="#" onClick="$('#restart-modal').foundation('reveal', 'open');" class="medium red button radius" id="restart-button">Spiel neustarten</a></li>
+        <li><a href="#" data-reveal-id="language-modal" class="medium red button radius" id="language-button">Sprache wechseln</a></li>
+        <li><a href="#" data-reveal-id="videoModal" class="medium red button radius" id="trailer-button">Game-Trailer Video anschauen</a></li>
+        <li><a href="#" data-reveal-id="info-modal" class="medium red button radius" id="info-button">Info</a></li>
+    </ul>
+
+    <span class="menu-pointer-bg clearfix"></span>
+    <span class="menu-pointer clearfix"></span>
+</div>
+<div class="menu-bg" style="display: block; cursor: pointer; opacity: 0.4;"></div>
+
+<div id="app">
+    <div id="screen-index" class="container" style="margin-top:15px;">
+
+        <div class="row text-box-container">
+            <div class="four columns" id="story">
+                <div class="offset-by-one animated bounceIn" id="bubble">
+                    <div class="text-box clearfix" style="width:250px">
+                        <h3 id="exercise_text">Beliebig viele Monster können an ein und demselben Wettbewerb teilnehmen. Und natürlich kann ein Monster auch an mehreren Wettbewerben teilnehmen.</h3>
+                        <!--<a id="continue_button" class="large red button radius right">Weiter</a>-->
+                        <span class="text-box-pointer clearfix" style="left:190px;"></span> <!-- left: 20 -->
+                        <span class="text-box-pointer-shadow" style="left:183px;"></span> <!-- left: 13 -->
+                    </div>
+                </div>
+
+                <div class="row bg-image-container">
+                    <div id="leftimg" class="one column bg-avatar animated fadeInLeft"></div>
+                    <div id="rightimg" class="offset-by-four hide-on-phones bg-avatar2"></div>
+                </div>
+            </div>
+            <div class="eight columns">
+                <div id="erd"></div>
+            </div>
+        </div>
+
+
+
+    </div>
+
+    <!-- $("#input_name").effect( "bounce", "slow" ); -->
+    <div class="row">
+        <div class="row columns twelve button disabled save-button radius" style="height: 32px; opacity: 1">
+            <a class="red button radius" style="margin:0; position: absolute; right: 15px; width:100px"><i class="fas fa-plus"></i> Relationship</a>
+            <a class="red button radius" style="margin:0; position: absolute; right: 195px; width:100px"><i class="fas fa-plus"></i> Entity Type</a>
+            <a class="red button radius" style="margin:0; position: absolute; right: 375px; width:100px"><i class="fas fa-plus"></i> Attribute</a>
+            <!--<div style="margin-top: -3px; position: absolute; right: 550px">
+              <input id="attr_mult" type="checkbox"><label for="attr_mult">Multi-valued</label><br>
+              <input id="attr_primary" type="checkbox"><label for="attr_primary">Primary Key</label>
+            </div>-->
+            <div style="margin-top: 0px; position: absolute; right: 558px; text-align: left;">
+                <label>Entity Type 2:<div style="white-space: nowrap;"><select style="width: 105px; display: inline-block; background-color: white;"><option></option></select><select style="width: 30px; display: inline-block; background-color: white;"><option>1</option><option>N</option></select></div></label>
+            </div>
+            <div style="margin-top: 0px; position: absolute; right: 707px; text-align: left;">
+                <label>Entity Type 1:<div style="white-space: nowrap;"><select style="width: 105px; display: inline-block; background-color: white;"><option></option></select><select style="width: 30px; display: inline-block; background-color: white;"><option>1</option><option>N</option></select></div></label>
+            </div>
+            <div style="margin-top: 0px; position: absolute; right: 855px; text-align: left;">
+                <label>Relationship Name:<br><input id="input_name" type="text" style="width: 120px; height:13px"></label>
+            </div>
+            <a class="red button radius" style="margin:0; position: absolute; left: 10px; padding-left: 15px; padding-right: 15px"><i class="fas fa-trash-alt"></i> </a>
+        </div>
+    </div>
+</div>
+
+
+
+<div id="restart-modal" class="reveal-modal tiny" data-reveal aria-labelledby="restart-modalTitle" aria-hidden="true" role="dialog">
+    <h2 id="restart-modalTitle">Spiel neustarten</h2>
+    <p class="lead">Bist du dir sicher?</p>
+    <p>Wenn du das Spiel neustartest, fängst du wieder ganz von vorne an.</p>
+    <p><a href="#" id="really-restart-button" class="button">Ja, Neustart!</a>
+        <a href="#" id="not-restart-button" class="button">Nein, weiterspielen!</a></p>
+    <a class="close-reveal-modal" aria-label="Close">&#215;</a>
+</div>
+
+<div id="language-modal" class="reveal-modal tiny" data-reveal aria-labelledby="language-modalTitle" aria-hidden="true" role="dialog">
+    <h2 id="language-modalTitle">Sprache wechseln</h2>
+    <p class="lead">Bitte wähle eine Sprache.</p>
+    <p>Danach wird das Spiel neu gestartet</p>
+    <p><a href="./?lang=de" class="button">Deutsch</a>
+        <a href="./?lang=en" class="button">English</a>
+        <a href="./?lang=pt" class="button">Português</a>
+        <a class="close-reveal-modal" aria-label="Close">&#215;</a>
+</div>
+
+<div id="videoModal" class="reveal-modal large" data-reveal aria-labelledby="videoModalTitle" aria-hidden="true" role="dialog">
+    <h2 id="videoModalTitle">SQL Island Game Trailer</h2>
+</div>
+
+<div id="info-modal" class="reveal-modal tiny" data-reveal aria-labelledby="modalTitle" aria-hidden="true" role="dialog">
+    <h2 id="modalTitle">http://www.sql-island.de - SQL Island</h2>
+    <p class="lead">Ein Text-Adventure-Lernspiel für die Datenbanksprache SQL</p>
+    <p>Das Spiel wurde an der Technischen Universität Kaiserslautern in der AG Heterogene Informationssysteme / Lehrgebiet Informationssysteme von Johannes Schildgen entwickelt. Ein großer Dank geht an Isabell Ruth, die die Grafiken erstellt hat, sowie an Marlene van den Ecker für die Übersetzung ins Englische.</p>
+    <p><a href="http://wwwlgis.informatik.uni-kl.de/cms/courses/informationssysteme/sqlisland/" class="button">Weitere Infos, Impressum, Kontakt und Publikationen'); ?></a></p>
+    <a class="close-reveal-modal" aria-label="Close">&#215;</a>
+</div>
+
+
+<script type="text/javascript"  src="./js/jquery-1.11.3.min.js"></script>
+<script type="text/javascript"  src="./js/jquery-ui.min.js"></script>
+<script type="text/javascript"  src="./js/ace.js"></script>
+<script type="text/javascript" src="./js/modernizr.foundation.js"></script>
+<script type="text/javascript" src="./js/screen-common.js"></script>
+<script type="text/javascript" src="./js/foundation.min.js"></script>
+<script type="text/javascript" src="./js/lodash.js"></script>
+<script type="text/javascript" src="./js/backbone.js"></script>
+<script type="text/javascript" src="./js/joint.min.js"></script>
+<script type="text/javascript" src="./js/erd.js"></script>
+
+<script type="text/javascript">
+    function updateContainerSize() {
+        var height = document.documentElement.clientHeight;
+        $('#erd').css({'height': height-190});
+        $('#erd').scrollTop($('#erd').prop('scrollHeight'));
+    }
+
+    $(window)
+        .load(function() {
+            updateContainerSize();
+        })
+        .resize(function(){
+            updateContainerSize();
+        });
+</script>
+</body>
+</html>
