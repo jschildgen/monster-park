@@ -90,6 +90,7 @@ class Entity extends erd.Entity {
  constructor(args = {}) {
   var args_new = {
     position: { x: 100, y: 200 },
+    size: {width: 100, height: 45},
     attrs: {
         text: {
             fill: '#000000',
@@ -119,6 +120,7 @@ class WeakEntity extends erd.WeakEntity {
  constructor(args = {}) {
   var args_new = {
     position: { x: 530, y: 200 },
+    size: {width: 100, height: 45},
     attrs: {
         text: {
             fill: '#000000',
@@ -313,6 +315,7 @@ class Relationship extends erd.Relationship {
  constructor(args = {}) {
   var args_new = {
     position: { x: 300, y: 390 },
+    size: {width: 70, height: 70},
     attrs: {
         text: {
             fill: '#ffffff',
@@ -345,9 +348,9 @@ var createLink = function(elm1, elm2, graph) {
             '<g class="marker-arrowheads"/>'
         ].join(''),
         source: { id: elm1.id },
-        target: { id: elm2.id }
+        target: { id: elm2.id },
     });
-
+    glo = myLink;
     return myLink.addTo(graph);
 };
 
@@ -401,6 +404,134 @@ var create_attributes = function(ent_or_att_obj, attributes, graph) {
     }
 }
 
+/** https://resources.jointjs.com/tutorial/multiple-links-between-elements */
+function adjustVertices(graph, cell) {
+
+    // if `cell` is a view, find its model
+    cell = cell.model || cell;
+
+    if (cell instanceof joint.dia.Element) {
+        // `cell` is an element
+
+        _.chain(graph.getConnectedLinks(cell))
+            .groupBy(function(link) {
+
+                // the key of the group is the model id of the link's source or target
+                // cell id is omitted
+                return _.omit([link.source().id, link.target().id], cell.id)[0];
+            })
+            .each(function(group, key) {
+
+                // if the member of the group has both source and target model
+                // then adjust vertices
+                if (key !== 'undefined') adjustVertices(graph, _.first(group));
+            })
+            .value();
+
+        return;
+    }
+
+    // `cell` is a link
+    // get its source and target model IDs
+    var sourceId = cell.get('source').id || cell.previous('source').id;
+    var targetId = cell.get('target').id || cell.previous('target').id;
+
+    // if one of the ends is not a model
+    // (if the link is pinned to paper at a point)
+    // the link is interpreted as having no siblings
+    if (!sourceId || !targetId) return;
+
+
+    // BEGIN CORRECTING LABELS
+    glo = cell;
+    var labels = cell.get("labels");
+    if(labels != undefined && labels.length>0) {
+        var txt = labels[0].attrs.text.text.trim();
+        if(Math.abs(graph.getCell(sourceId).position().x - graph.getCell(targetId).position().x) < 50) {
+            // the two cells are below each other => move label text a bit to the right
+            cell.label(0, {attrs: {text: {text: "   " + txt}}}); alert("he")
+        }
+    }
+    // END CORRECTING LABELS
+
+    // identify link siblings
+    var siblings = _.filter(graph.getLinks(), function(sibling) {
+
+        var siblingSourceId = sibling.source().id;
+        var siblingTargetId = sibling.target().id;
+
+        // if source and target are the same
+        // or if source and target are reversed
+        return ((siblingSourceId === sourceId) && (siblingTargetId === targetId))
+            || ((siblingSourceId === targetId) && (siblingTargetId === sourceId));
+    });
+
+    var numSiblings = siblings.length;
+    switch (numSiblings) {
+
+        case 0: {
+            // the link has no siblings
+            break;
+
+        } case 1: {
+            // there is only one link
+            // no vertices needed
+            cell.unset('vertices');
+            break;
+
+        } default: {
+            // there are multiple siblings
+            // we need to create vertices
+
+            // find the middle point of the link
+            var sourceCenter = graph.getCell(sourceId).getBBox().center();
+            var targetCenter = graph.getCell(targetId).getBBox().center();
+            var midPoint = g.Line(sourceCenter, targetCenter).midpoint();
+
+            // find the angle of the link
+            var theta = sourceCenter.theta(targetCenter);
+
+            // constant
+            // the maximum distance between two sibling links
+            var GAP = 20;
+
+            _.each(siblings, function(sibling, index) {
+
+                // we want offset values to be calculated as 0, 20, 20, 40, 40, 60, 60 ...
+                var offset = GAP * Math.ceil(index / 2);
+
+                // place the vertices at points which are `offset` pixels perpendicularly away
+                // from the first link
+                //
+                // as index goes up, alternate left and right
+                //
+                //  ^  odd indices
+                //  |
+                //  |---->  index 0 sibling - centerline (between source and target centers)
+                //  |
+                //  v  even indices
+                var sign = ((index % 2) ? 1 : -1);
+
+                // to assure symmetry, if there is an even number of siblings
+                // shift all vertices leftward perpendicularly away from the centerline
+                if ((numSiblings % 2) === 0) {
+                    offset -= ((GAP / 2) * sign);
+                }
+
+                // make reverse links count the same as non-reverse
+                var reverse = ((theta < 180) ? 1 : -1);
+
+                // we found the vertex
+                var angle = g.toRad(theta + (sign * reverse * 90));
+                var vertex = g.Point.fromPolar(offset, angle, midPoint);
+
+                // replace vertices array with `vertex`
+                sibling.vertices([vertex]);
+            });
+        }
+    }
+}
+
 var paper;
 var graph = new joint.dia.Graph();
 var entity_index = {}; /* entity_name => cid */
@@ -416,8 +547,16 @@ function initERD(erdDiv, width, height) {
         model: graph
     });
 
+    var adjustGraphVertices = _.partial(adjustVertices, graph);
+
+// adjust vertices when a cell is removed or its source/target was changed
+    graph.on('add remove change:source change:target', adjustGraphVertices);
+
+// adjust vertices when the user stops interacting with an element
+    paper.on('cell:pointerup', adjustGraphVertices);
+
     paper.on('cell:pointerup', function (cell, evt, x, y) {
-        //cell.highlight();
+        cell.highlight();
     })
 
     // Unbind orignal highligting handlers.
@@ -425,7 +564,7 @@ function initERD(erdDiv, width, height) {
 
     // Bind custom ones.
     paper.on('cell:highlight', function (cellView) {
-
+        highlighted_cell = cellView;
         var padding = 5;
         var bbox = cellView.getBBox({useModelGeometry: true}).inflate(padding);
 
@@ -436,7 +575,8 @@ function initERD(erdDiv, width, height) {
     });
 
     paper.on('cell:unhighlight', function () {
-        //highlighter.remove();
+        highlighter.remove();
+        highlighted_cell = null;
     });
 }
 
@@ -505,7 +645,9 @@ function createRelationship(rel) {
     if (rel.pos != undefined) {
         rel_obj.position(rel.pos[0], rel.pos[1]);
     } else {
-        rel_obj.position(default_pos[0], default_pos[1]);
+        //rel_obj.position(default_pos[0], default_pos[1]);
+        rel_obj.position(Math.floor(Math.random() * (paper.getArea().width-150)),
+            Math.floor(Math.random() * (paper.getArea().height-65)));
     }
 
     /* create relationship attributes */
@@ -553,10 +695,12 @@ initERD($("#erd"), 770, null);
 /*createEntitytype({"_e":"People"});
 createEntitytype({"_e":"Home"});
 createRelationship({_e:["People", "Home"], card:["N","1"], _r:"stay at"})*/
-createEntitytype({"_e":"Personen"});
+createEntitytype({"_e":"Feuermonster"});
 createEntitytype({"_e":"Zuhause"});
 createEntitytype({"_e":"Hörbücher"});
-createRelationship({_e:["Personen", "Zuhause"], card:["N","1"], _r:"bleiben"})
-createRelationship({_e:["Personen", "Hörbücher"], card:["N","M"], _r:"hören"})
+createRelationship({_e:["Feuermonster", "Zuhause"], card:["N","1"], _r:"bleiben"})
+createRelationship({_e:["Feuermonster", "Hörbücher"], card:["N","M"], _r:"hören"})
+createRelationship({_e:["Feuermonster", "Feuermonster"], card:["N","M"], _r:"is child of"})
+
 
 
