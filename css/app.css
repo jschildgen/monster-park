@@ -1,7 +1,3 @@
-#querylog {
-  overflow-y: scroll;
-}
-
 #story {
   position: absolute;
   bottom: 45px
@@ -11,11 +7,6 @@
 
 meta.foundation-data-attribute-namespace {
   font-family: false; }
-
-#editor {
-    height:70px;
-    font-size: 15pt;
-}
 
 #loading {
     /*display:    none;*/

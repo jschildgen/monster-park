@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="css/foundation.min.css">
     <link rel="stylesheet" href="css/animation.min.css">
     <link rel="stylesheet" href="css/joint.min.css">
-    <link rel="stylesheet" href="css/app.min.css">
+    <link rel="stylesheet" href="css/app.css">
     <link rel="stylesheet" href="css/fontawesome.min.css">
 </head>
 <body>
@@ -70,26 +70,50 @@
 
     </div>
 
-    <!-- $("#input_name").effect( "bounce", "slow" ); -->
+    <!-- $("#ctrl_input_name").effect( "bounce", "slow" ); -->
     <div class="row">
         <div class="row columns twelve button disabled save-button radius" style="height: 32px; opacity: 1">
-            <a class="red button radius" style="margin:0; position: absolute; right: 15px; width:100px"><i class="fas fa-plus"></i> Relationship</a>
-            <a class="red button radius" style="margin:0; position: absolute; right: 195px; width:100px"><i class="fas fa-plus"></i> Entity Type</a>
-            <a class="red button radius" style="margin:0; position: absolute; right: 375px; width:100px"><i class="fas fa-plus"></i> Attribute</a>
-            <!--<div style="margin-top: -3px; position: absolute; right: 550px">
+            <a id="ctrl_delete" class="brown disabled button radius" style="margin:0; position: absolute; left: 10px; padding-left: 15px; padding-right: 15px"><i class="fas fa-trash-alt"></i> </a>
+
+            <div class="ctrl_attribute ctrl_entitytype ctrl_relationship" style="visibility: hidden; margin-top: 0px; position: absolute; right: 855px; text-align: left;">
+                <label class="ctrl_attribute" for="ctrl_input_name" style="display: none">Attribute Name:</label>
+                <label class="ctrl_entitytype" for="ctrl_input_name" style="display: none">Entity-type Name:</label>
+                <label class="ctrl_relationship" for="ctrl_input_name" style="display: none">Relationship Name:</label>
+                <br><input id="ctrl_input_name" type="text" style="width: 120px; height:13px"></label>
+            </div>
+
+            <div class="ctrl_entitytype" style="visibility: hidden; margin-top: 0px; position: absolute; right: 707px; text-align: left;">
+                <label for="ctrl_select_e1">Sub-Entitytype of:</label>
+                <div style="white-space: nowrap;">
+                    <select id="ctrl_select_super" style="width: 105px; display: inline-block; background-color: white;"><option></option></select>
+                </div>
+            </div>
+
+            <div class="ctrl_relationship" style="visibility: hidden; margin-top: 0px; position: absolute; right: 707px; text-align: left;">
+                <label for="ctrl_select_e1">Entity Type 1:</label>
+                <div style="white-space: nowrap;">
+                    <select id="ctrl_select_e1" style="width: 105px; display: inline-block; background-color: white;"><option></option></select><select id="ctrl_card_e1" style="width: 30px; display: inline-block; background-color: white;"><option>1</option><option>N</option></select>
+                </div>
+            </div>
+
+            <div class="ctrl_relationship" style="visibility: hidden; margin-top: 0px; position: absolute; right: 558px; text-align: left;">
+                <label for="ctrl_select_e2">Entity Type 2:</label>
+                <div style="white-space: nowrap;">
+                    <select id="ctrl_select_e2" style="width: 105px; display: inline-block; background-color: white;"><option></option></select><select id="ctrl_card_e2" style="width: 30px; display: inline-block; background-color: white;"><option>1</option><option>N</option></select>
+                </div>
+            </div>
+
+            <div class="ctrl_attribute" style="visibility: hidden; margin-top: -3px; position: absolute; right: 750px">
               <input id="attr_mult" type="checkbox"><label for="attr_mult">Multi-valued</label><br>
               <input id="attr_primary" type="checkbox"><label for="attr_primary">Primary Key</label>
-            </div>-->
-            <div style="margin-top: 0px; position: absolute; right: 558px; text-align: left;">
-                <label>Entity Type 2:<div style="white-space: nowrap;"><select style="width: 105px; display: inline-block; background-color: white;"><option></option></select><select style="width: 30px; display: inline-block; background-color: white;"><option>1</option><option>N</option></select></div></label>
             </div>
-            <div style="margin-top: 0px; position: absolute; right: 707px; text-align: left;">
-                <label>Entity Type 1:<div style="white-space: nowrap;"><select style="width: 105px; display: inline-block; background-color: white;"><option></option></select><select style="width: 30px; display: inline-block; background-color: white;"><option>1</option><option>N</option></select></div></label>
-            </div>
-            <div style="margin-top: 0px; position: absolute; right: 855px; text-align: left;">
-                <label>Relationship Name:<br><input id="input_name" type="text" style="width: 120px; height:13px"></label>
-            </div>
-            <a class="red button radius" style="margin:0; position: absolute; left: 10px; padding-left: 15px; padding-right: 15px"><i class="fas fa-trash-alt"></i> </a>
+
+            <a id="ctrl_new_attribute" class="red button radius" style="margin:0; position: absolute; right: 375px; width:100px"><i class="fas fa-plus"></i> Attribute</a>
+
+            <a id="ctrl_new_entitytype" class="red button radius" style="margin:0; position: absolute; right: 195px; width:100px"><i class="fas fa-plus"></i> Entity Type</a>
+
+            <a id="ctrl_new_relationship" class="red button radius" style="margin:0; position: absolute; right: 15px; width:100px"><i class="fas fa-plus"></i> Relationship</a>
+
         </div>
     </div>
 </div>
@@ -138,6 +162,7 @@
 <script type="text/javascript" src="./js/backbone.js"></script>
 <script type="text/javascript" src="./js/joint.min.js"></script>
 <script type="text/javascript" src="./js/erd.js"></script>
+<script type="text/javascript" src="./js/game.js"></script>
 
 <script type="text/javascript">
     function updateContainerSize() {

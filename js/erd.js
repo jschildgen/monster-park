@@ -449,7 +449,9 @@ function adjustVertices(graph, cell) {
         var txt = labels[0].attrs.text.text.trim();
         if(Math.abs(graph.getCell(sourceId).position().x - graph.getCell(targetId).position().x) < 50) {
             // the two cells are below each other => move label text a bit to the right
-            cell.label(0, {attrs: {text: {text: "   " + txt}}}); alert("he")
+            cell.label(0, {attrs: {text: {text: "   " + txt}}});
+        } else {
+            cell.label(0, {attrs: {text: {text: txt+"\n"}}});
         }
     }
     // END CORRECTING LABELS
@@ -557,6 +559,14 @@ function initERD(erdDiv, width, height) {
 
     paper.on('cell:pointerup', function (cell, evt, x, y) {
         cell.highlight();
+        onSelect(cell);
+    })
+
+    paper.on('blank:pointerup', function (cell, evt, x, y) {
+        onUnselect();
+        if(highlighted_cell != undefined) {
+            highlighted_cell.unhighlight();
+        }
     })
 
     // Unbind orignal highligting handlers.
@@ -618,6 +628,7 @@ function createEntitytype(ent) {
         createLink(isa_obj, ent_obj, graph);
         createLink(isa_obj, super_obj, graph);
     }
+    return ent_obj;
 
 }
 
@@ -664,6 +675,7 @@ function createRelationship(rel) {
         graph.addCell(att_obj)
         createLink(rel_obj, att_obj, graph);
     }
+    return rel_obj;
 }
 
 graph.on('change:position', function (cell) {
@@ -695,12 +707,12 @@ initERD($("#erd"), 770, null);
 /*createEntitytype({"_e":"People"});
 createEntitytype({"_e":"Home"});
 createRelationship({_e:["People", "Home"], card:["N","1"], _r:"stay at"})*/
-createEntitytype({"_e":"Feuermonster"});
+/*createEntitytype({"_e":"Feuermonster"});
 createEntitytype({"_e":"Zuhause"});
 createEntitytype({"_e":"Hörbücher"});
 createRelationship({_e:["Feuermonster", "Zuhause"], card:["N","1"], _r:"bleiben"})
 createRelationship({_e:["Feuermonster", "Hörbücher"], card:["N","M"], _r:"hören"})
 createRelationship({_e:["Feuermonster", "Feuermonster"], card:["N","M"], _r:"is child of"})
-
+*/
 
 
