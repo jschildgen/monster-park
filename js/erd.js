@@ -639,6 +639,9 @@ function createRelationship(rel) {
     if (rel.attributes == undefined || rel.attributes == null) {
         rel.attributes = []
     }
+    if (rel._e == undefined || rel._e == null) {
+        rel._e = []
+    }
 
     var rel_obj = rel.options.indexOf("weak") > -1 ? new IdentifyingRelationship : new Relationship();
     rel_obj.attr('text/text', rel._r);
