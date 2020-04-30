@@ -574,6 +574,14 @@ function initERD(erdDiv, width, height) {
 
     // Bind custom ones.
     paper.on('cell:highlight', function (cellView) {
+        if(cellView.attributes()["data-type"] != "erd.Entity"
+        && cellView.attributes()["data-type"] != "erd.Relationship") {
+            onUnselect();
+            if(highlighted_cell != undefined) {
+                highlighted_cell.unhighlight();
+            }
+            return;
+        }
         highlighted_cell = cellView;
         var padding = 5;
         var bbox = cellView.getBBox({useModelGeometry: true}).inflate(padding);

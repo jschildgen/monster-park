@@ -5,12 +5,14 @@ _r = [];
 $("#ctrl_new_entitytype").click(function() {
     var cell = createEntitytype({"_e":""}); /* add to graph */
     _e[cell.cid] = {cell: cell};                /* add to entity directory */
+    if(highlighted_cell != undefined) { onSelect(highlighted_cell); }
 });
 
 /* creating a new relationship */
 $("#ctrl_new_relationship").click(function() {
     var cell = createRelationship({"_r":""}); /* add to graph */
     _r[cell.cid] = {cell: cell};                  /* add to entity directory */
+    if(highlighted_cell != undefined) { onSelect(highlighted_cell); }
 });
 
 /* deleting an entity type, relationship or attribute */
@@ -32,16 +34,29 @@ $("#ctrl_input_name").keyup(function() {
 });
 
 /* changing the entity types belonging to a relationship */
-$('#ctrl_select_e1,#ctrl_select_e2').change(function() {
+/* or changing cardinalities of a relationship */
+$('#ctrl_select_e1,#ctrl_select_e2,#ctrl_card_e1,#ctrl_card_e2').change(function() {
     var cid = highlighted_cell.model.cid;
     /* remove existing links first */
     for(e in _r[cid]._e) { _r[cid]._e[e].link.remove() }
     _r[cid]._e = [];
 
+    /* add links to directory and graph */
     var e1_cid = $('#ctrl_select_e1')[0].value;
     var e2_cid = $('#ctrl_select_e2')[0].value;
-    if(e1_cid != "") { _r[cid]._e[0] = {cid: e1_cid, link: createLink(graph.getCell(cid), graph.getCell(e1_cid), graph) }; }
-    if(e2_cid != "") { _r[cid]._e[1] = {cid: e2_cid, link: createLink(graph.getCell(cid), graph.getCell(e2_cid), graph) }; }
+
+    var card1 = $('#ctrl_card_e1').val();
+    var card2 = $('#ctrl_card_e2').val();
+    var card2 = card1 == "N" && card2 == "N" ? "M" : card1 == "1" && card2 == "M" ? "N" : card2;
+
+    if(e1_cid != "") { _r[cid]._e[0] = {cid: e1_cid, card: card1, link: createLink(graph.getCell(cid), graph.getCell(e1_cid), graph) }; }
+    if(e2_cid != "") { _r[cid]._e[1] = {cid: e2_cid, card: card2, link: createLink(graph.getCell(cid), graph.getCell(e2_cid), graph) }; }
+
+    /* add cardinalities */
+    if(_r[cid]._e[0] != undefined) { _r[cid]._e[0].link.set(createLabel(_r[cid]._e[0].card)); }
+    if(_r[cid]._e[1] != undefined) { _r[cid]._e[1].link.set(createLabel(_r[cid]._e[1].card)); }
+
+    if(highlighted_cell != undefined) { onSelect(highlighted_cell); }
 });
 
 foo = null;
@@ -81,6 +96,33 @@ function onSelect(cell) {
                     $('#ctrl_select_e2').append(new Option(_e[cid].name, cid));
                 }
             }
+
+            /* select list for cardinalities */
+            $('#ctrl_card_e1,#ctrl_card_e2').html('');
+            var cards = ["1", "1"]
+            if(rel._e != undefined && rel._e[0] != undefined) { cards[0] = rel._e[0].card }
+            if(rel._e != undefined && rel._e[1] != undefined) { cards[1] = rel._e[1].card }
+
+            var N_or_M = "N"; /* option for second cardinality */
+            if(cards[0] == "1") {
+                $('#ctrl_card_e1').append(new Option("1", "1", true, true));
+                $('#ctrl_card_e1').append(new Option("N", "N"));
+            } else {
+                $('#ctrl_card_e1').append(new Option("1", "1"));
+                $('#ctrl_card_e1').append(new Option("N", "N", true, true));
+                N_or_M = "M";
+            }
+
+            if(cards[1] == "1") {
+                $('#ctrl_card_e2').append(new Option("1", "1", true, true));
+                $('#ctrl_card_e2').append(new Option(N_or_M, N_or_M));
+            } else {
+                $('#ctrl_card_e2').append(new Option("1", "1"));
+                $('#ctrl_card_e2').append(new Option(N_or_M, N_or_M, true, true));
+            }
+
+
+
             break;
 
     }
