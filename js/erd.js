@@ -575,7 +575,8 @@ function initERD(erdDiv, width, height) {
     // Bind custom ones.
     paper.on('cell:highlight', function (cellView) {
         if(cellView.attributes()["data-type"] != "erd.Entity"
-        && cellView.attributes()["data-type"] != "erd.Relationship") {
+        && cellView.attributes()["data-type"] != "erd.Relationship"
+        && cellView.attributes()["data-type"] != "erd.Normal") {
             onUnselect();
             if(highlighted_cell != undefined) {
                 highlighted_cell.unhighlight();

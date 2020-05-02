@@ -15,20 +15,91 @@ $("#ctrl_new_relationship").click(function() {
     if(highlighted_cell != undefined) { onSelect(highlighted_cell); }
 });
 
+/* creating a new attribute */
+$('#ctrl_new_attribute').click(function() {
+    var cid = highlighted_cell.model.cid;
+    var entry = highlighted_cell.attributes()["data-type"] == "erd.Entity" ? _e[cid] : _r[cid];
+    if(entry._a == undefined) { entry._a = []; }
+    var att_obj = new Attribute();
+    graph.addCell(att_obj);                     /* add to graph */
+    att_obj.position(highlighted_cell.model.position().x-200+Math.floor(Math.random()*400),
+        highlighted_cell.model.position().y-200+Math.floor(Math.random()*400));
+    createLink(highlighted_cell.model, att_obj, graph);
+    entry._a[att_obj.cid] = {cell: att_obj};    /* add to _e/_r directory */
+});
+
 /* deleting an entity type, relationship or attribute */
 $("#ctrl_delete").click(function() {
     var cid = highlighted_cell.model.cid;
     highlighted_cell.unhighlight();
     graph.removeCells(graph.getCell(cid));  /* remove from graph */
-    delete _e[cid];                         /* remove from directory */
-    delete _r[cid];
+    delete_entitytype(cid);                 /* remove from directory */
+    delete_relationship(cid);
+    delete_attribute(_e, cid);
+    delete_attribute(_r, cid);
+    /* TODO: recursively remove sub-attributes */
     onUnselect();
 });
+
+function delete_entitytype(cid) {
+    if(_e[cid] == undefined) { return; }
+    if(_e[cid]._a != undefined) { delete_attribute([_e[cid]], null); }
+    delete _e[cid];
+}
+
+function delete_relationship(cid) {
+    if(_r[cid] == undefined) { return; }
+    if(_r[cid]._a != undefined) { delete_attribute([_r[cid]], null); }
+    delete _r[cid];
+}
+
+/**
+ * Deletes one specific or all attributes under the elements in a given set
+ * @param parentset: cascading deletion of the attribute starts here
+ * @param cid when null, then all attributes, otherwise one specific cid will be deleted
+ */
+function delete_attribute(parentset, cid) {
+    for(var c in parentset) {
+        if(parentset[c]._a == undefined) { return; }
+        for(var att in parentset[c]._a) {
+            delete_attribute([parentset[c]._a[att]], cid);
+        }
+        if(cid != null) {
+            delete parentset[c]._a[cid];
+        } else {
+            for(var att in parentset[c]._a) {
+                delete parentset[c]._a[att];
+                graph.removeCells(graph.getCell(att));
+            }
+        }
+    }
+}
+
+function find_attribute(cid, parent = null) {
+    if(parent == null) { return find_attribute(cid, _e) != null ? find_attribute(cid, _e) : find_attribute(cid, _r); }
+    for(var c in parent) {
+        if(parent[c]._a == undefined) { return null; }
+        if(parent[c]._a[cid] != undefined) { return parent[c]._a[cid]; /* found! */ }
+        return find_attribute(cid, parent[c]._a)
+    }
+    return null;
+}
 
 /* changing the name of an entity type, relationship or attribute */
 $("#ctrl_input_name").keyup(function() {
     var cid = highlighted_cell.model.cid;
-    var entry = highlighted_cell.attributes()["data-type"] == "erd.Entity" ? _e[cid] : _r[cid];
+    var entry;
+    switch(highlighted_cell.attributes()["data-type"]) {
+        case "erd.Entity":
+            entry = _e[cid];
+            break;
+        case "erd.Relationship":
+            entry = _r[cid];
+            break;
+        default:
+            entry = find_attribute(cid);
+            break;
+    }
     entry.name = $(this).val();             /* change name in directory */
     entry.cell.attr("text/text",$(this).val())  /* change name in graph */
 });
@@ -124,10 +195,18 @@ function onSelect(cell) {
 
 
             break;
-
+        case "erd.Normal":
+            $(".ctrl_attribute").css("visibility", "visible").show();
+            var attr = find_attribute(cid);
+            $("#ctrl_input_name").val(attr.name != undefined ? attr.name : "");
+            $("#ctrl_input_name").focus();
+            break;
     }
 
 }
+
+
+
 
 function onUnselect() {
     $("#ctrl_delete").removeClass("red").addClass("disabled brown");
