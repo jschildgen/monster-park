@@ -149,16 +149,19 @@ $('#ctrl_select_super').change(function() {
     /* remove from graph */
     if(_e[cid].isa != undefined && _e[cid].isa.cell != undefined) { _e[cid].isa.cell.remove(); }
 
+    if(super_cid != "") {
+        /* add to graph */
+        var isa_obj = new ISA();
+        isa_obj.position(graph.getCell(super_cid).position().x + 37, graph.getCell(super_cid).position().y + 45);
+        graph.addCell(isa_obj)
+        var link = createLink(isa_obj, graph.getCell(cid), graph);
+        //createLink(isa_obj, graph.getCell(super_cid), graph);
 
-    /* add to graph */
-    var isa_obj = new ISA();
-    isa_obj.position(graph.getCell(super_cid).position().x + 37, graph.getCell(super_cid).position().y + 45);
-    graph.addCell(isa_obj)
-    var link = createLink(isa_obj, graph.getCell(cid), graph);
-    //createLink(isa_obj, graph.getCell(super_cid), graph);
-
-    /* add is-a information to entity directory */
-    _e[cid].isa = {cid: super_cid, cell: isa_obj};
+        /* add is-a information to entity directory */
+        _e[cid].isa = {cid: super_cid, cell: isa_obj};
+    } else {
+        delete _e[cid].isa;
+    }
 });
 
 /* changing the entity types belonging to a relationship */
