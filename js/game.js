@@ -15,17 +15,24 @@ $("#ctrl_new_relationship").click(function() {
     if(highlighted_cell != undefined) { onSelect(highlighted_cell); }
 });
 
-/* creating a new attribute */
-$('#ctrl_new_attribute').click(function() {
+/* creating a new attribute or sub-attribute */
+$('#ctrl_new_attribute,#ctrl_new_subattribute').click(function() {
     var cid = highlighted_cell.model.cid;
-    var entry = highlighted_cell.attributes()["data-type"] == "erd.Entity" ? _e[cid] : _r[cid];
-    if(entry._a == undefined) { entry._a = []; }
+    var parent;
+    switch(highlighted_cell.attributes()["data-type"]) {
+        case "erd.Entity": parent = _e[cid]; break;
+        case "erd.Relationship" : parent = _r[cid]; break;
+        default:
+            if(this.id == 'ctrl_new_subattribute') { parent = find_attribute(cid); break; }
+            parent = find_root(cid); break;    /* attribute is selected => find its parent entity type or relationship */
+    }
+    if(parent._a == undefined) { parent._a = []; }
     var att_obj = new Attribute();
     graph.addCell(att_obj);                     /* add to graph */
-    att_obj.position(highlighted_cell.model.position().x-200+Math.floor(Math.random()*400),
-        highlighted_cell.model.position().y-200+Math.floor(Math.random()*400));
-    createLink(highlighted_cell.model, att_obj, graph);
-    entry._a[att_obj.cid] = {cell: att_obj};    /* add to _e/_r directory */
+    att_obj.position(parent.cell.position().x-200+Math.floor(Math.random()*400),
+        parent.cell.position().y-200+Math.floor(Math.random()*400));
+    createLink(parent.cell, att_obj, graph);
+    parent._a[att_obj.cid] = {cell: att_obj};    /* add to _e/_r directory */
 });
 
 /* deleting an entity type, relationship or attribute */
@@ -77,10 +84,25 @@ function delete_attribute(parentset, cid) {
 
 function find_attribute(cid, parent = null) {
     if(parent == null) { return find_attribute(cid, _e) != null ? find_attribute(cid, _e) : find_attribute(cid, _r); }
-    for(var c in parent) {
-        if(parent[c]._a == undefined) { return null; }
-        if(parent[c]._a[cid] != undefined) { return parent[c]._a[cid]; /* found! */ }
-        return find_attribute(cid, parent[c]._a)
+    for(var c in parent) { console.log("Search for cid "+cid+" in parent "+c)
+        if(parent[c]._a == undefined) { continue; }
+        if(parent[c]._a[cid] != undefined) { console.log("found"); return parent[c]._a[cid]; /* found! */ }
+        var recursive_search = find_attribute(cid, parent[c]._a);
+        if(recursive_search != null) { return recursive_search; }
+    }
+    return null;
+}
+
+function find_root(cid) {
+    for(var c in _e) {
+        if ((_e[c]._a != undefined && _e[c]._a[cid] != undefined) || find_attribute(cid, _e[c]._a) != null) {
+            return _e[c];
+        }
+    }
+    for(var c in _r) {
+        if ((_r[c]._a != undefined && _r[c]._a[cid] != undefined) || find_attribute(cid, _r[c]._a) != null) {
+            return _r[c];
+        }
     }
     return null;
 }
