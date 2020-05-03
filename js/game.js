@@ -84,9 +84,9 @@ function delete_attribute(parentset, cid) {
 
 function find_attribute(cid, parent = null) {
     if(parent == null) { return find_attribute(cid, _e) != null ? find_attribute(cid, _e) : find_attribute(cid, _r); }
-    for(var c in parent) { console.log("Search for cid "+cid+" in parent "+c)
+    for(var c in parent) {
         if(parent[c]._a == undefined) { continue; }
-        if(parent[c]._a[cid] != undefined) { console.log("found"); return parent[c]._a[cid]; /* found! */ }
+        if(parent[c]._a[cid] != undefined) { return parent[c]._a[cid]; /* found! */ }
         var recursive_search = find_attribute(cid, parent[c]._a);
         if(recursive_search != null) { return recursive_search; }
     }
@@ -158,7 +158,6 @@ function onSelect(cell) {
     onUnselect();
     var cid = cell.model.cid;
     $("#ctrl_delete").removeClass("disabled brown").addClass("red");
-    foo = cell;
 
     switch (cell.attributes()["data-type"]) {
         case "erd.Entity":
@@ -222,6 +221,11 @@ function onSelect(cell) {
             var attr = find_attribute(cid);
             $("#ctrl_input_name").val(attr.name != undefined ? attr.name : "");
             $("#ctrl_input_name").focus();
+            if(find_root(cid).cell.attributes.type == "erd.Relationship") {
+                $('.hide_for_relationship_attributes').hide();
+            } else {
+                $('.hide_for_relationship_attributes').show();
+            }
             break;
     }
 
