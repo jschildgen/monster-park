@@ -2,21 +2,22 @@ _e = [];
 _r = [];
 
 /* creating a new entitytype */
-$("#ctrl_new_entitytype").click(function() {
+$("#ctrl_new_entitytype").click(do_create_entitytype = function() {
     var cell = createEntitytype({"_e":""}); /* add to graph */
     _e[cell.cid] = {cell: cell};                /* add to entity directory */
     if(highlighted_cell != undefined) { onSelect(highlighted_cell); }
 });
 
 /* creating a new relationship */
-$("#ctrl_new_relationship").click(function() {
+$("#ctrl_new_relationship").click(do_create_relationship = function() {
     var cell = createRelationship({"_r":""}); /* add to graph */
     _r[cell.cid] = {cell: cell};                  /* add to entity directory */
     if(highlighted_cell != undefined) { onSelect(highlighted_cell); }
 });
 
 /* creating a new attribute or sub-attribute */
-$('#ctrl_new_attribute,#ctrl_new_subattribute').click(function() {
+$('#ctrl_new_attribute,#ctrl_new_subattribute').click(do_create_attribute = function() {
+    if(highlighted_cell == undefined) { return; }
     var cid = highlighted_cell.model.cid;
     var parent;
     switch(highlighted_cell.attributes()["data-type"]) {
@@ -36,7 +37,7 @@ $('#ctrl_new_attribute,#ctrl_new_subattribute').click(function() {
 });
 
 /* deleting an entity type, relationship or attribute */
-$("#ctrl_delete").click(function() {
+$("#ctrl_delete").click(do_delete = function() {
     var cid = highlighted_cell.model.cid;
     highlighted_cell.unhighlight();
     graph.removeCells(graph.getCell(cid));  /* remove from graph */
@@ -44,18 +45,31 @@ $("#ctrl_delete").click(function() {
     delete_relationship(cid);
     delete_attribute(_e, cid);
     delete_attribute(_r, cid);
-    /* TODO: recursively remove sub-attributes */
     onUnselect();
+});
+
+$('html').keyup(function(e){
+    if(e.keyCode == 46) { do_delete(); } /* del */
 });
 
 function delete_entitytype(cid) {
     if(_e[cid] == undefined) { return; }
+    /* delete the entity type's attributes */
     if(_e[cid]._a != undefined) { delete_attribute([_e[cid]], null); }
+    /* does this entity type have a super-type? */
+    if(_e[cid].isa != undefined) { _e[cid].isa.cell.remove(); }
+    /* is this entity type the super-type of others? */
+    for(var sub_cid in _e) {
+        if(_e[sub_cid].isa != undefined && _e[sub_cid].isa.cid == cid) {
+            _e[sub_cid].isa.cell.remove();
+        }
+    }
     delete _e[cid];
 }
 
 function delete_relationship(cid) {
     if(_r[cid] == undefined) { return; }
+    /* delete the relationship attributes */
     if(_r[cid]._a != undefined) { delete_attribute([_r[cid]], null); }
     delete _r[cid];
 }
@@ -67,16 +81,17 @@ function delete_relationship(cid) {
  */
 function delete_attribute(parentset, cid) {
     for(var c in parentset) {
-        if(parentset[c]._a == undefined) { return; }
+        if(parentset[c] == undefined || parentset[c]._a == undefined) { return; }
         for(var att in parentset[c]._a) {
             delete_attribute([parentset[c]._a[att]], cid);
         }
         if(cid != null) {
+            delete_attribute([parentset[c]._a[cid]], null); /* delete all sub-attributes */
             delete parentset[c]._a[cid];
         } else {
             for(var att in parentset[c]._a) {
-                delete parentset[c]._a[att];
                 graph.removeCells(graph.getCell(att));
+                delete parentset[c]._a[att];
             }
         }
     }
@@ -126,6 +141,26 @@ $("#ctrl_input_name").keyup(function() {
     entry.cell.attr("text/text",$(this).val())  /* change name in graph */
 });
 
+/* changing super-entity  */
+$('#ctrl_select_super').change(function() {
+    var cid = highlighted_cell.model.cid;
+    var super_cid = $('#ctrl_select_super')[0].value;
+
+    /* remove from graph */
+    if(_e[cid].isa != undefined && _e[cid].isa.cell != undefined) { _e[cid].isa.cell.remove(); }
+
+
+    /* add to graph */
+    var isa_obj = new ISA();
+    isa_obj.position(graph.getCell(super_cid).position().x + 37, graph.getCell(super_cid).position().y + 45);
+    graph.addCell(isa_obj)
+    var link = createLink(isa_obj, graph.getCell(cid), graph);
+    //createLink(isa_obj, graph.getCell(super_cid), graph);
+
+    /* add is-a information to entity directory */
+    _e[cid].isa = {cid: super_cid, cell: isa_obj};
+});
+
 /* changing the entity types belonging to a relationship */
 /* or changing cardinalities of a relationship */
 $('#ctrl_select_e1,#ctrl_select_e2,#ctrl_card_e1,#ctrl_card_e2').change(function() {
@@ -157,13 +192,25 @@ foo = null;
 function onSelect(cell) {
     onUnselect();
     var cid = cell.model.cid;
-    $("#ctrl_delete").removeClass("disabled brown").addClass("red");
 
     switch (cell.attributes()["data-type"]) {
         case "erd.Entity":
             $(".ctrl_entitytype").css("visibility", "visible").show();
             $("#ctrl_input_name").val(_e[cid].name != undefined ? _e[cid].name : "");
             $("#ctrl_input_name").focus();
+
+            /* select lists for participating entity types */
+            $('#ctrl_select_super').html('<option></option>');
+            for(var super_cid in _e) {
+                if(super_cid == cid) { continue; /* not showing entity type itself */ }
+                /* selected as supertype */
+                if(_e[cid].isa != undefined && _e[cid].isa.cid == super_cid) {
+                    $('#ctrl_select_super').append(new Option(_e[super_cid].name, super_cid, true, true));
+                } else {
+                    $('#ctrl_select_super').append(new Option(_e[super_cid].name, super_cid));
+                }
+            }
+
             break;
 
         case "erd.Relationship":
@@ -227,12 +274,12 @@ function onSelect(cell) {
                 $('.hide_for_relationship_attributes').show();
             }
             break;
+
+        default:
+            return;
     }
-
+    $("#ctrl_delete").removeClass("disabled brown").addClass("red");
 }
-
-
-
 
 function onUnselect() {
     $("#ctrl_delete").removeClass("red").addClass("disabled brown");
@@ -240,4 +287,19 @@ function onUnselect() {
     $(".ctrl_relationship").css("visibility", "hidden").hide();
     $(".ctrl_attribute").css("visibility", "hidden").hide();
     $("#ctrl_input_name").val("");
+}
+
+function onMove(cell) {
+    var cid = cell.cid;
+
+    switch (cell.attributes.type) {
+        case "erd.Entity":
+            /* is this entity type the super-type of others? */
+            for(var sub_cid in _e) {
+                if(_e[sub_cid].isa != undefined && _e[sub_cid].isa.cid == cid) {
+                    _e[sub_cid].isa.cell.position(cell.position().x + 37, cell.position().y + 45);
+                }
+            }
+            break;
+    }
 }

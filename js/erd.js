@@ -710,6 +710,8 @@ graph.on('change:position', function (cell) {
     if (cell.attributes.position.y > $('#erd').height() - 65) {
         cell.attributes.position.y = $('#erd').height() - 65;
     }
+
+    onMove(cell);
 });
 
 initERD($("#erd"), 770, null);
