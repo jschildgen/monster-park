@@ -36,6 +36,32 @@ $('#ctrl_new_attribute,#ctrl_new_subattribute').click(do_create_attribute = func
     parent._a[att_obj.cid] = {cell: att_obj};    /* add to _e/_r directory */
 });
 
+/* changing attribute properties (primary key, multivalued */
+$("#attr_primary,#attr_mult").change(function() {
+    var mult_attr = {".inner":{"display":"block","stroke":"#797d9a","stroke-width":2,"cx":0,"cy":0,"rx":43,"ry":21,"fill":"#ffcb63"},"text":{"text":"","font-family":"Arial","text-decoration":"none", "font-size":14,"ref-x":0.5,"ref-y":0.5,"y-alignment":"middle","text-anchor":"middle","fill":"#000000","letterSpacing":0,"fontWeight":"bold"},"ellipse":{"transform":"translate(50, 25)"},".outer":{"stroke":"#797d9a","stroke-width":2,"cx":0,"cy":0,"rx":50,"ry":25,"fill":"#ffcb63","filter":{"name":"dropShadow","args":{"dx":0,"dy":2,"blur":2,"color":"#000000"}}}};
+    var normal_attr = {"text":{"text":"","font-family":"Arial","text-decoration":"none", "font-size":14,"ref-x":0.5,"ref-y":0.5,"y-alignment":"middle","text-anchor":"middle","fill":"#000000","letterSpacing":0,"fontWeight":"bold"},"ellipse":{"transform":"translate(50, 25)"},".outer":{"stroke":"#ffcb63","stroke-width":2,"cx":0,"cy":0,"rx":50,"ry":25,"fill":"#ffcb63","filter":{"name":"dropShadow","args":{"dx":0,"dy":2,"blur":2,"color":"#222138"}}},".inner":{"stroke":"#D35400","stroke-width":2,"cx":0,"cy":0,"rx":45,"ry":20,"fill":"#E67E22","display":"none"}};
+    var key_attr = {"ellipse":{"stroke-width":4,"transform":"translate(50, 25)"},"text":{"text":"","font-weight":"800","text-decoration":"underline","font-family":"Arial","font-size":14,"ref-x":0.5,"ref-y":0.5,"y-alignment":"middle","text-anchor":"middle","fill":"#000000","letterSpacing":0,"fontWeight":"bold"},".outer":{"stroke":"none","stroke-width":2,"cx":0,"cy":0,"rx":50,"ry":25,"fill":"#ffcb63","filter":{"name":"dropShadow","args":{"dx":0,"dy":2,"blur":2,"color":"#222138"}}},".inner":{"stroke":"none","stroke-width":2,"cx":0,"cy":0,"rx":45,"ry":20,"fill":"#ffcb63","display":"none"}};
+
+    var cid = highlighted_cell.model.cid;
+    var attr = find_attribute(cid);
+    attr.options = [];
+
+    if(this.id == "attr_primary" && this.checked) {
+        highlighted_cell.model.attributes.attrs = key_attr;
+        $("#attr_mult").prop('checked', false);
+        attr.options.push("primary");
+    } else if(this.id == "attr_mult" && this.checked) {
+        highlighted_cell.model.attributes.attrs = mult_attr;
+        $("#attr_primary").prop('checked', false);
+        attr.options.push("multi");
+    } else {
+        highlighted_cell.model.attributes.attrs = normal_attr;
+    }
+
+    highlighted_cell.model.attr("text/text", attr.name+"_");
+    highlighted_cell.model.attr("text/text", attr.name);
+});
+
 /* deleting an entity type, relationship or attribute */
 $("#ctrl_delete").click(do_delete = function() {
     var cid = highlighted_cell.model.cid;
@@ -266,7 +292,7 @@ function onSelect(cell) {
 
 
             break;
-        case "erd.Normal":
+        case "erd.Normal":      /* Attribute */
             $(".ctrl_attribute").css("visibility", "visible").show();
             var attr = find_attribute(cid);
             $("#ctrl_input_name").val(attr.name != undefined ? attr.name : "");
@@ -276,6 +302,9 @@ function onSelect(cell) {
             } else {
                 $('.hide_for_relationship_attributes').show();
             }
+
+            $("#attr_primary").prop("checked", (attr.options != undefined && attr.options.indexOf("primary")>-1));
+            $("#attr_mult").prop("checked", (attr.options != undefined && attr.options.indexOf("multi")>-1));
             break;
 
         default:
@@ -283,6 +312,7 @@ function onSelect(cell) {
     }
     $("#ctrl_delete").removeClass("disabled brown").addClass("red");
 }
+
 
 function onUnselect() {
     $("#ctrl_delete").removeClass("red").addClass("disabled brown");
