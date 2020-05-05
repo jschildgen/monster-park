@@ -23,18 +23,18 @@
 </div>
 
 <div class="row show-on-phones">
-    <div class="columns twelve phone-logobar"><img src="images/oth.png" alt="SQL Island" width="120"></div>
-    <div class="columns twelve phone-titlebar"><h1>SQL Island</h1></div>
+    <div class="columns twelve phone-logobar"><img src="images/oth.png" alt="MonstER Park" width="120"></div>
+    <div class="columns twelve phone-titlebar"><h1>MonstER Park</h1></div>
     <a href="" class="menu-button button red mobile"></a>
 </div>
 
 <div class="menu-content">
     <ul class="menu">
-        <li><a href="#" class="medium red button radius" id="joyride-button">Spielanleitung</a></li>
-        <li><a href="#" onClick="$('#restart-modal').foundation('reveal', 'open');" class="medium red button radius" id="restart-button">Spiel neustarten</a></li>
-        <li><a href="#" data-reveal-id="language-modal" class="medium red button radius" id="language-button">Sprache wechseln</a></li>
-        <li><a href="#" data-reveal-id="videoModal" class="medium red button radius" id="trailer-button">Game-Trailer Video anschauen</a></li>
-        <li><a href="#" data-reveal-id="info-modal" class="medium red button radius" id="info-button">Info</a></li>
+        <li><a href="#" class="medium red button radius lang" id="joyride-button">Game Instructions</a></li>
+        <li><a href="#" onClick="$('#restart-modal').foundation('reveal', 'open');" class="medium red button radius lang" id="restart-button">Restart Game</a></li>
+        <li><a href="#" data-reveal-id="language-modal" class="medium red button radius lang" id="language-button">Change Language</a></li>
+        <li><a href="#" data-reveal-id="videoModal" class="medium red button radius lang" id="trailer-button">Watch Game-Trailer Video</a></li>
+        <li><a href="#" data-reveal-id="info-modal" class="medium red button radius lang" id="info-button">Info</a></li>
     </ul>
 
     <span class="menu-pointer-bg clearfix"></span>
@@ -76,45 +76,45 @@
             <a id="ctrl_delete" class="brown disabled button radius" style="margin:0; position: absolute; left: 10px; padding-left: 15px; padding-right: 15px"><i class="fas fa-trash-alt"></i> </a>
 
             <div class="ctrl_attribute ctrl_entitytype ctrl_relationship" style="visibility: hidden; margin-top: 0px; position: absolute; right: 855px; text-align: left;">
-                <label class="ctrl_attribute" for="ctrl_input_name" style="display: none">Attribute Name:</label>
-                <label class="ctrl_entitytype" for="ctrl_input_name" style="display: none">Entity-type Name:</label>
-                <label class="ctrl_relationship" for="ctrl_input_name" style="display: none">Relationship Name:</label>
+                <label class="ctrl_attribute lang" for="ctrl_input_name" style="display: none">Attribute Name:</label>
+                <label class="ctrl_entitytype lang" for="ctrl_input_name" style="display: none">Entity-type Name:</label>
+                <label class="ctrl_relationship lang" for="ctrl_input_name" style="display: none">Relationship Name:</label>
                 <br><input id="ctrl_input_name" type="text" style="width: 120px; height:13px" maxlength="15"></label>
             </div>
 
             <div class="ctrl_entitytype" style="visibility: hidden; margin-top: 0px; position: absolute; right: 707px; text-align: left;">
-                <label for="ctrl_select_e1">is-a:</label>
+                <label for="ctrl_select_e1" class="lang">is-a:</label>
                 <div style="white-space: nowrap;">
                     <select id="ctrl_select_super" style="width: 105px; display: inline-block; background-color: white;"><option></option></select>
                 </div>
             </div>
 
             <div class="ctrl_relationship" style="visibility: hidden; margin-top: 0px; position: absolute; right: 707px; text-align: left;">
-                <label for="ctrl_select_e1">Entity Type 1:</label>
+                <label for="ctrl_select_e1" class="lang">Entity Type 1:</label>
                 <div style="white-space: nowrap;">
                     <select id="ctrl_select_e1" style="width: 105px; display: inline-block; background-color: white;"><option></option></select><select id="ctrl_card_e1" style="width: 35px; display: inline-block; background-color: white;"></select>
                 </div>
             </div>
 
             <div class="ctrl_relationship" style="visibility: hidden; margin-top: 0px; position: absolute; right: 558px; text-align: left;">
-                <label for="ctrl_select_e2">Entity Type 2:</label>
+                <label for="ctrl_select_e2" class="lang">Entity Type 2:</label>
                 <div style="white-space: nowrap;">
                     <select id="ctrl_select_e2" style="width: 105px; display: inline-block; background-color: white;"><option></option></select><select id="ctrl_card_e2" style="width: 35px; display: inline-block; background-color: white;"></select>
                 </div>
             </div>
 
             <div class="ctrl_attribute" style="visibility: hidden; margin-top: -3px; position: absolute; right: 750px">
-                <span class="hide_for_relationship_attributes"><input id="attr_primary" type="checkbox"><label for="attr_primary">Primary Key</label><br></span>
-                <input id="attr_mult" type="checkbox"><label for="attr_mult">Multi-valued</label>
+                <span class="hide_for_relationship_attributes"><input id="attr_primary" type="checkbox"><label for="attr_primary" class="lang">Primary Key</label><br></span>
+                <input id="attr_mult" type="checkbox"><label for="attr_mult" class="lang">Multi-valued</label>
             </div>
 
-            <a id="ctrl_new_subattribute" class="ctrl_attribute red button radius" style="visibility: hidden; margin:0; position: absolute; right: 555px; width:100px"><i class="fas fa-plus"></i> Sub-Attribute</a>
+            <a id="ctrl_new_subattribute" class="ctrl_attribute red button radius" style="visibility: hidden; margin:0; position: absolute; right: 555px; width:100px"><i class="fas fa-plus"></i> <span class="lang">Sub-Attribute</span></a>
 
-            <a id="ctrl_new_attribute" class="ctrl_attribute ctrl_entitytype ctrl_relationship red button radius" style="visibility: hidden; margin:0; position: absolute; right: 375px; width:100px"><i class="fas fa-plus"></i> Attribute</a>
+            <a id="ctrl_new_attribute" class="ctrl_attribute ctrl_entitytype ctrl_relationship red button radius" style="visibility: hidden; margin:0; position: absolute; right: 375px; width:100px"><i class="fas fa-plus"></i> <span class="lang">Attribute</span></a>
 
-            <a id="ctrl_new_entitytype" class="red button radius" style="margin:0; position: absolute; right: 195px; width:100px"><i class="fas fa-plus"></i> Entity Type</a>
+            <a id="ctrl_new_entitytype" class="red button radius" style="margin:0; position: absolute; right: 195px; width:100px"><i class="fas fa-plus"></i> <span class="lang">Entity Type</span></a>
 
-            <a id="ctrl_new_relationship" class="red button radius" style="margin:0; position: absolute; right: 15px; width:100px"><i class="fas fa-plus"></i> Relationship</a>
+            <a id="ctrl_new_relationship" class="red button radius" style="margin:0; position: absolute; right: 15px; width:100px"><i class="fas fa-plus"></i> <span class="lang">Relationship</span></a>
 
         </div>
     </div>
@@ -165,6 +165,7 @@
 <script type="text/javascript" src="./js/joint.min.js"></script>
 <script type="text/javascript" src="./js/erd.js"></script>
 <script type="text/javascript" src="./js/game.js"></script>
+<script type="text/javascript" src="./js/language.js"></script>
 
 <script type="text/javascript">
     function updateContainerSize() {
