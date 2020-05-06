@@ -32,7 +32,7 @@
     <ul class="menu">
         <li><a href="#" class="medium red button radius lang" id="joyride-button">Game Instructions</a></li>
         <li><a href="#" onClick="$('#restart-modal').foundation('reveal', 'open');" class="medium red button radius lang" id="restart-button">Restart Game</a></li>
-        <li><a href="#" data-reveal-id="language-modal" class="medium red button radius lang" id="language-button">Change Language</a></li>
+        <li><a href="#" onClick="$('#language-modal').foundation('reveal', 'open');" class="medium red button radius lang" id="language-button">Change Language</a></li>
         <li><a href="#" data-reveal-id="videoModal" class="medium red button radius lang" id="trailer-button">Watch Game-Trailer Video</a></li>
         <li><a href="#" data-reveal-id="info-modal" class="medium red button radius lang" id="info-button">Info</a></li>
     </ul>
@@ -49,7 +49,7 @@
             <div class="four columns" id="story">
                 <div class="offset-by-one animated bounceIn" id="bubble">
                     <div class="text-box clearfix" style="width:250px">
-                        <h3 id="exercise_text">Beliebig viele Monster können an ein und demselben Wettbewerb teilnehmen. Und natürlich kann ein Monster auch an mehreren Wettbewerben teilnehmen.</h3>
+                        <h3 id="exercise_text" class="lang">%ex1</h3>
                         <!--<a id="continue_button" class="large red button radius right">Weiter</a>-->
                         <span class="text-box-pointer clearfix" style="left:190px;"></span> <!-- left: 20 -->
                         <span class="text-box-pointer-shadow" style="left:183px;"></span> <!-- left: 13 -->
@@ -75,7 +75,7 @@
         <div class="row columns twelve button disabled save-button radius" style="height: 32px; opacity: 1">
             <a id="ctrl_delete" class="brown disabled button radius" style="margin:0; position: absolute; left: 10px; padding-left: 15px; padding-right: 15px"><i class="fas fa-trash-alt"></i> </a>
 
-            <div class="ctrl_attribute ctrl_entitytype ctrl_relationship" style="visibility: hidden; margin-top: 0px; position: absolute; right: 855px; text-align: left;">
+            <div class="ctrl_attribute ctrl_entitytype ctrl_relationship" style="visibility: hidden; margin-top: 0px; position: absolute; left: 63px; text-align: left;">
                 <label class="ctrl_attribute lang" for="ctrl_input_name" style="display: none">Attribute Name:</label>
                 <label class="ctrl_entitytype lang" for="ctrl_input_name" style="display: none">Entity-type Name:</label>
                 <label class="ctrl_relationship lang" for="ctrl_input_name" style="display: none">Relationship Name:</label>
@@ -103,7 +103,7 @@
                 </div>
             </div>
 
-            <div class="ctrl_attribute" style="visibility: hidden; margin-top: -3px; position: absolute; right: 750px">
+            <div class="ctrl_attribute" style="visibility: hidden; margin-top: -3px; position: absolute; left: 193px; text-align: left">
                 <span class="hide_for_relationship_attributes"><input id="attr_primary" type="checkbox"><label for="attr_primary" class="lang">Primary Key</label><br></span>
                 <input id="attr_mult" type="checkbox"><label for="attr_mult" class="lang">Multi-valued</label>
             </div>
@@ -123,21 +123,20 @@
 
 
 <div id="restart-modal" class="reveal-modal tiny" data-reveal aria-labelledby="restart-modalTitle" aria-hidden="true" role="dialog">
-    <h2 id="restart-modalTitle">Spiel neustarten</h2>
-    <p class="lead">Bist du dir sicher?</p>
-    <p>Wenn du das Spiel neustartest, fängst du wieder ganz von vorne an.</p>
-    <p><a href="#" id="really-restart-button" class="button">Ja, Neustart!</a>
-        <a href="#" id="not-restart-button" class="button">Nein, weiterspielen!</a></p>
+    <h2 id="restart-modalTitle" class="lang">Restart Game</h2>
+    <p class="lead lang">Are you sure?</p>
+    <p class="lang">When you restart the game, you have to start all over again.</p>
+    <p><a href="#" id="really-restart-button" class="button lang">Yes, restart!</a>
+        <a href="#" id="not-restart-button" class="button lang">No, continue the game!</a></p>
     <a class="close-reveal-modal" aria-label="Close">&#215;</a>
 </div>
 
 <div id="language-modal" class="reveal-modal tiny" data-reveal aria-labelledby="language-modalTitle" aria-hidden="true" role="dialog">
-    <h2 id="language-modalTitle">Sprache wechseln</h2>
-    <p class="lead">Bitte wähle eine Sprache.</p>
-    <p>Danach wird das Spiel neu gestartet</p>
-    <p><a href="./?lang=de" class="button">Deutsch</a>
-        <a href="./?lang=en" class="button">English</a>
-        <a href="./?lang=pt" class="button">Português</a>
+    <h2 id="language-modalTitle" class="lang">Change Language</h2>
+    <p class="lead lang">Please choose your language.</p>
+    <p class="lang">Afterwards, you can continue your game without restarting.</p>
+    <p><a href="javascript:change_language('de'); $('#language-modal').foundation('reveal', 'close');" class="button">Deutsch</a>
+        <a href="javascript:change_language('en'); $('#language-modal').foundation('reveal', 'close');" class="button">English</a>
         <a class="close-reveal-modal" aria-label="Close">&#215;</a>
 </div>
 
