@@ -14,7 +14,7 @@ lang_de = {
     "Multi-valued": "Mehrwertig",
     "Sub-Attribute": "Sub-Attribut",
     "Attribute": "Attribut",
-    "Entity Type": "Enitätstyp",
+    "Entity Type": "Entitätstyp",
     "Relationship": "Beziehung",
     "Are you sure?": "Bist du dir sicher?",
     "When you restart the game, you have to start all over again.": "Wenn du das Spiel neustartest, fängst du wieder ganz von vorne an.",
