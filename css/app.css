@@ -620,12 +620,12 @@ form.nice div.form-field.success small, form.nice small.success {
 
 #screen-index .bg-avatar2 {
   z-index: -2;
-  width:140px;
+  width:200px;
   height:288px;
   margin-top: 30px;
   margin-bottom: 15px;
   margin-left: 180px;
-  background: url('../images/wf/arthur_frei.png')  no-repeat;
+  background: url('../images/trina.png')  no-repeat;
 }
 
 #screen-index .bg-closet {

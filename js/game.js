@@ -6,6 +6,7 @@ $("#ctrl_new_entitytype").click(do_create_entitytype = function() {
     var cell = createEntitytype({"_e":""}); /* add to graph */
     _e[cell.cid] = {cell: cell};                /* add to entity directory */
     if(highlighted_cell != undefined) { onSelect(highlighted_cell); }
+    check_exercise();
 });
 
 /* creating a new relationship */
@@ -13,6 +14,7 @@ $("#ctrl_new_relationship").click(do_create_relationship = function() {
     var cell = createRelationship({"_r":""}); /* add to graph */
     _r[cell.cid] = {cell: cell};                  /* add to entity directory */
     if(highlighted_cell != undefined) { onSelect(highlighted_cell); }
+    check_exercise();
 });
 
 /* creating a new attribute or sub-attribute */
@@ -34,6 +36,7 @@ $('#ctrl_new_attribute,#ctrl_new_subattribute').click(do_create_attribute = func
         parent.cell.position().y-200+Math.floor(Math.random()*400));
     createLink(parent.cell, att_obj, graph);
     parent._a[att_obj.cid] = {cell: att_obj};    /* add to _e/_r directory */
+    check_exercise();
 });
 
 /* changing attribute properties (primary key, multivalued */
@@ -60,6 +63,7 @@ $("#attr_primary,#attr_mult").change(function() {
 
     highlighted_cell.model.attr("text/text", attr.name+"_");
     highlighted_cell.model.attr("text/text", attr.name);
+    check_exercise();
 });
 
 /* deleting an entity type, relationship or attribute */
@@ -72,6 +76,7 @@ $("#ctrl_delete").click(do_delete = function() {
     delete_attribute(_e, cid);
     delete_attribute(_r, cid);
     onUnselect();
+    check_exercise();
 });
 
 $('html').keyup(function(e){
@@ -91,6 +96,7 @@ function delete_entitytype(cid) {
         }
     }
     delete _e[cid];
+    check_exercise();
 }
 
 function delete_relationship(cid) {
@@ -121,6 +127,7 @@ function delete_attribute(parentset, cid) {
             }
         }
     }
+    check_exercise();
 }
 
 function find_attribute(cid, parent = null) {
@@ -165,6 +172,7 @@ $("#ctrl_input_name").keyup(function() {
     }
     entry.name = $(this).val();             /* change name in directory */
     entry.cell.attr("text/text",$(this).val())  /* change name in graph */
+    check_exercise();
 });
 
 /* changing super-entity  */
@@ -188,6 +196,7 @@ $('#ctrl_select_super').change(function() {
     } else {
         delete _e[cid].isa;
     }
+    check_exercise();
 });
 
 /* changing the entity types belonging to a relationship */
@@ -214,6 +223,7 @@ $('#ctrl_select_e1,#ctrl_select_e2,#ctrl_card_e1,#ctrl_card_e2').change(function
     if(_r[cid]._e[1] != undefined) { _r[cid]._e[1].link.set(createLabel(_r[cid]._e[1].card)); }
 
     if(highlighted_cell != undefined) { onSelect(highlighted_cell); }
+    check_exercise();
 });
 
 foo = null;
@@ -336,3 +346,338 @@ function onMove(cell) {
             break;
     }
 }
+
+
+
+
+/*** STORY ***/
+
+story = [
+    {
+        "de": "Willkommen im MonstER-Park! Hier soll einmal der größte Monster-Freizeitpark der Welt entstehen. Leider läuft es mit der Planung gerade gar nicht gut. Kannst du mir vielleicht etwas helfen, damit der Park pünktlich eröffnen kann? Ich werde nämlich dauernd von diesen kleinen Monstern abgelenkt. Oh da ist ja schon wieder eins!",
+    },
+    {
+        "de": "Hallo! Ich bin Monster Nummer 1, ich heiße Bolbo!",
+    },
+    {
+        "de": "Hi Bolbo! Das heißt also, jedes Monster hat eine Monsternr und einen Namen. Ich erstelle dann also einen Entitätstypen \"Monster\" mit den beiden Attributen \"Monsternr\" und \"Name\".",
+        "me": true,
+        "_e": [{
+            "name": ["monster", "monsters"],
+            "_a": [
+                {"name":["monsternr","monsternummer","monsterid"]},
+                {"name":["name","monstername"]}
+            ]
+        }],
+    },
+    {
+        "de": "Super gemacht! Ich freue mich schon, wenn der MonstER-Park eröffnet wird und uns die ersten Trainer besuchen kommen."
+    },
+    {
+        "de": "Notiere bitte, dass es Trainer geben kann und dass jeder Trainer eine Trainer-ID, einen Spitznamen und ein Geschlecht hat.",
+        "_e": [{
+            "name": ["trainer", "trainers", "trainerin"],
+            "_a": [
+                {"name":["trainernr","trainernummer","trainerid"]},
+                {"name":["spitzname", "name","trainername"]},
+                {"name":["geschlecht"]}
+            ]
+        }],
+    },
+    {
+        "de": "Hab ich schon gesagt, dass ich Monster Nummer 1 bin? Diese Nummer habe nur ich! Es gibt zwar noch weitere Bolbos im Monster Park, aber keiner außer mir hat die Nummer 1.",
+    },
+    {
+        "de": "Okay, das heißt, ich muss die Monsternummer unterstreichen und sie damit zum Primärschlüssel machen, weil sie ein Monster eindeutig identifiziert.",
+        "me": true,
+        "_e": [{
+            "name": ["monster", "monsters"],
+            "_a": [
+                {"name":["monsternr","monsternummer","monsterid"], "options": ["primary"]},
+            ]
+        }],
+    },
+    {
+        "de": "Wie ist das eigentlich bei Trainern? Was ist da der Primärschlüssel?",
+        "_e": [{
+            "name": ["trainer", "trainers", "trainerin"],
+            "_a": [
+                {"name":["trainernr","trainernummer","trainerid"], "options": ["primary"]},
+            ]
+        }],
+    },
+    {
+        "de": "Ich hoffe ich finde bald einen Trainer, der sich um mich kümmert!"
+    },
+    {
+        "de": "Ach so, ein Monster gehört also einem Trainer. Dann erstelle ich mal eine Beziehung.",
+        "me": true,
+        "_r": [
+            {
+                "name": ["gehoert", "gehoert zu", "besitzt", "hat"],
+                "_e": ["monster", "trainer"]
+            }
+        ]
+    },
+    {
+        "de": "Aber Achtung: Jedes Monster gehört immer nur einem Trainer. Aber ein Trainer kann viele Monster haben!",
+        "_r": [
+            {
+                "name": ["gehoert", "gehoertzu", "besitzt", "hat"],
+                "_e": ["monster", "trainer"],
+                "card": ["N", "1"]
+            }
+        ]
+    },
+    {
+        "de": "Wusstest du, dass es auch Teams gibt? Ein Team hat einen Teamnamen und eine Farbe.",
+        "_e": [
+            {
+                "name": ["team", "teams"],
+                "_a": [
+                    {"name": ["teamname", "name"]},
+                    {"name": ["farbe", "teamfarbe"]}
+                ]
+            }
+        ]
+    },
+    {
+        "de": "Da ein Team keine Nummer hat, mach einfach den Teamnamen zum Primärschlüssel. Er ist eindeutig.",
+        "_e": [
+            {
+                "name": ["team", "teams"],
+                "_a": [
+                    {"name": ["teamname", "name"], "options": ["primary"]}
+                ]
+            }
+        ]
+    },
+    {
+        "de": "Und jetzt male bitte auf, dass ein Trainer in einem Team sein kann. In einem Team können aber natürlich mehrere Trainer sein!",
+        "_r": [
+            {
+                "name": ["in", "istin", "sindin", "gehörtzu", "bestehtaus"],
+                "_e": ["trainer", "team"],
+                "card": ["N", "1"]
+            }
+        ]
+    },
+    {
+        "de": "Ich habe noch was vergessen: Nicht nur Teams haben eine Farbe, sondern auch Monster! Wie du siehst bin ich Gelb-Schwarz!"
+    },
+    {
+        "de": "Oha, das heißt Monster haben viele Farben. \"Farbe\" muss also ein mehrwertiges Attribut sein.",
+        "me": true,
+        "_e": [{
+            "name": ["monster", "monsters"],
+            "_a": [
+                {"name":["farbe","monsterfarbe","farben"], "options": ["multi"]},
+            ]
+        }],
+    },
+    {
+        "de": "Juhu, jetzt weiß jeder, dass ich Gelb-Schwarz bin! Ich verrate dir nochwas: Ich heiße gar nicht einfach nur Bolbo. Ich heiße Bolbo Brillenfrosch!"
+    },
+    {
+        "de": "Potzblitz, dann besteht der Name eines Monsters also aus den Sub-Attributen Vorname und Nachname!",
+        "me": true,
+        "_e": [{
+            "name": ["monster", "monsters"],
+            "_a": [
+                {"name":["name","monstername"], "_a": [
+                        {"name": ["vorname"]}, {"name": ["nachname"]}
+                    ]}
+            ]
+        }],
+    },
+    {
+        "de": "Huhu, ich bin Trina! Ich bin die Tochter von Bolbo!",
+    },
+    {
+        "de": "Hi Trina! Das heißt ja dann, Monster können Kinder von anderen Monstern sein.",
+        "me": true,
+        "_r": [
+            {
+                "name": ["istkindvon", "kindvon", "kind", "eltern", "elternteil", "hatkind", "hatkinder"],
+                "_e": ["monster", "monster"],
+            }
+        ]
+    },
+    {
+        "de": "Ja genau! Ein Monster hat mehrere Elternteile und Eltern können natürlich auch viele Kinder haben.",
+        "_r": [
+            {
+                "name": ["istkindvon", "kindvon", "kind", "eltern", "elternteil", "hatkind", "hatkinder"],
+                "_e": ["monster", "monster"],
+                "card": ["N", "1"]
+            }
+        ]
+    },
+    {
+        "de": "Wie du siehst, bin ich kein normales Monster. Ich bin ein Flugmonster! Ich habe vier Flügel!"
+    },
+    {
+        "de": "Das heißt es muss einen Unter-Entitätstypen \"Flugmonster\" geben. Ein Flugmonster ist ein Monster.",
+        "_e": [{
+            "name": ["flugmonster", "flugmonsters"],
+            "_a": [
+                {"name":["anzahlfluegel","anzfluegel","fluegel","fluegelanz","fluegelanzahl"] }
+            ],
+            "isa": "monster"
+        }],
+    },
+    {
+        "de": "Richtig! Außerdem habe ich vier Flügel! Mach bitte, dass man bei Flugmonstern die Anzahl ihrer Flügel angeben kann!",
+        "_e": [{
+            "name": ["flugmonster", "flugmonsters"],
+            "_a": [
+                {"name":["anzahlfluegel","anzfluegel","fluegel","fluegelanz","fluegelanzahl"] }
+            ]
+        }],
+    },
+    {
+        "de": "Fertig!",
+    }
+]
+
+current_exercise = -1;
+
+function check_exercise(continue_button = false) {
+    if(current_exercise >= story.length) { return; }
+    var matching_entities = [];
+    for(var e = 0; e <= current_exercise; e++) {
+        var ex = story[e];
+        if (ex._e != undefined) {
+            for (var i in ex._e) {  // are all required entity types present?
+                var ent = ex._e[i];
+                var matching_ent = null;
+                for (var j in _e) {
+                    if (ent.name.includes(norm(_e[j].name))) {
+                        matching_ent = _e[j];
+                        break;
+                    }
+                }
+                if (matching_ent == null) { // entity type is missing
+                    return;
+                }
+                matching_entities[ent.name[0]] = matching_ent;
+
+                if(ent.isa != undefined) {  // should the entity type be a subtype of another?
+                    if(matching_entities[ent.isa] == undefined) { return; } // subtype does not exist
+                    if(matching_ent.isa.cid != matching_entities[ent.isa].cell.cid) { return; } // wrong supertype
+                }
+
+                if (ent._a != undefined) {  // are all required attributes present?
+                    for (var a in ent._a) {
+                        var att = ent._a[a];
+                        var matching_att = null;
+                        if (matching_ent._a == undefined) {
+                            return; // entity type has no attributes at all
+                        }
+                        for (var j in matching_ent._a) {
+                            if (att.name.includes(norm(matching_ent._a[j].name))) {
+                                matching_att = matching_ent._a[j];
+                                break;
+                            }
+                        }
+                        if (matching_att == null) { // attribute is missing
+                            return;
+                        }
+                        if(att.options != undefined) {  // should the attribute have any options (primary, multi)?
+                            if(matching_att.options == undefined) { return; }
+                            for(var o in att.options) {
+                                if(!matching_att.options.includes(att.options[o])) { return; }
+                            }
+                        }
+                        if(att._a != undefined) {   // should the attribute have any sub-attributes?
+                            if(matching_att._a == undefined) { return; }
+                            for(var a in att._a) {
+                                var found = false;
+                                for(var b in matching_att._a) {
+                                    if(att._a[a].name.includes(norm(matching_att._a[b].name))) {
+                                        found = true;
+                                        break;
+                                    }
+                                }
+                                if(!found) { return; } // sub-attribute is missing
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        if (ex._r != undefined) {
+            for(var i in ex._r) {   // are all required relationships present?
+                var rel = ex._r[i];
+                var matching_rel = null;
+                for (var j in _r) {
+                    if (rel.name.includes(norm(_r[j].name))) {
+                        matching_rel = _r[j];
+                        break;
+                    }
+                }
+                if (matching_rel == null) { // relationship is missing
+                    return;
+                }
+                for(var j in rel._e) {  // does the relationship connect the correct entity types?
+                    var matching_ent = matching_entities[rel._e[j]];
+                    if(matching_ent == undefined) { return; } // one of the relationship's entity types is not there
+                    var found = false;
+                    for(var k in matching_rel._e) {
+                        var cid = matching_rel._e[k].cid;
+                        if(cid == matching_ent.cell.cid) {
+                            found = true;
+                            if(rel.card != undefined) {
+                                if(rel.card[j] != matching_rel._e[k].card) { return false; }  // wrong cardinality
+                            }
+                            break;
+                        }
+                    }
+                    if(!found) { // relationship is connecting wrong entity types
+                        return;
+                    }
+                }
+            }
+        }
+    }
+
+    if(!continue_button && story[current_exercise]._e == undefined && story[current_exercise]._r == undefined) { return; }
+
+    current_exercise++;
+    ex = story[current_exercise];
+    $('#exercise_text').text(ex.de);
+    if(ex.me != undefined && ex.me) {
+        $(".text-box-pointer").css("left", 20);
+        $(".text-box-pointer-shadow").css("left", 13);
+    } else {
+        $(".text-box-pointer").css("left", 190);
+        $(".text-box-pointer-shadow").css("left", 183);
+    }
+
+    if(ex._e == undefined && ex._r == undefined) {
+        $('#continue_button').show();
+    } else {
+        $('#continue_button').hide();
+    }
+
+    check_exercise();   // maybe multiple exercises are solved together in one step
+}
+
+$('#continue_button').click(function() {
+    check_exercise(true);
+});
+
+
+function norm(s) {
+    if(s==undefined) { return undefined; }
+    return s.toLowerCase()
+        .replace("ä", "ae")
+        .replace("ö", "oe")
+        .replace("ü", "ue")
+        .replace("ß", "ss")
+        .replace(/[^a-z0-9]/g,"");
+}
+
+$(function () {
+    check_exercise(true);
+});
