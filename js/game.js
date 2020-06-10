@@ -352,6 +352,10 @@ function onMove(cell) {
 
 /*** STORY ***/
 
+tomorrow = new Date();
+tomorrow.setDate(tomorrow.getDate()+1);
+tomorrow = tomorrow.toLocaleDateString();
+
 story = [
     {
         "de": "Willkommen im MonstER-Park! Hier soll einmal der größte Monster-Freizeitpark der Welt entstehen. Leider läuft es mit der Planung gerade gar nicht gut. Kannst du mir vielleicht etwas helfen, damit der Park pünktlich eröffnen kann? Ich werde nämlich dauernd von diesen kleinen Monstern abgelenkt. Oh da ist ja schon wieder eins!",
@@ -466,7 +470,7 @@ story = [
         "de": "Ich habe noch was vergessen: Nicht nur Teams haben eine Farbe, sondern auch Monster! Wie du siehst bin ich Gelb-Schwarz!"
     },
     {
-        "de": "Oha, das heißt Monster haben viele Farben. \"Farbe\" muss also ein mehrwertiges Attribut sein.",
+        "de": "Oha, das heißt Monster haben mehrere Farben. \"Farbe\" muss also ein mehrwertiges Attribut sein.",
         "me": true,
         "_e": [{
             "name": ["monster", "monsters"],
@@ -518,11 +522,9 @@ story = [
     },
     {
         "de": "Das heißt es muss einen Unter-Entitätstypen \"Flugmonster\" geben. Ein Flugmonster ist ein Monster.",
+        "me": true,
         "_e": [{
             "name": ["flugmonster", "flugmonsters"],
-            "_a": [
-                {"name":["anzahlfluegel","anzfluegel","fluegel","fluegelanz","fluegelanzahl"] }
-            ],
             "isa": "monster"
         }],
     },
@@ -536,7 +538,65 @@ story = [
         }],
     },
     {
-        "de": "Fertig!",
+        "de": "Hey, hast du Trina gesehen? Ich habe ihr tolle Neuigkeiten zu erzählen! Und zwar ist meine Temperatur von 800°C auf 900°C gestiegen!",
+    },
+    {
+        "de": "Hi du! Trina kommt bestimmt gleich wieder. Ich vermerke noch kurz, dass es den Subtyp Feuermonster gibt und dass diese eine Temperatur habem.",
+        "me": true,
+        "_e": [{
+            "name": ["feuermonster", "feuermonsters"],
+            "_a": [
+                {"name":["temperatur","grad","hitze"] }
+            ],
+            "isa": "monster"
+        }],
+    },
+    {
+        "de": "Wie ich sehe, hast du schon meinen Kumpel Fibi kennengelernt. Ich musste gerade kurz verschwinden, weil ich mich für einen Wettbewerb angemeldet habe."
+    },
+    {
+        "de": "Hier finden nämlich ganz oft Wettbewerbe statt! Jeder Wettbewerb hat ein Datum und eine Bezeichnung.",
+        "_e": [{
+            "name": ["competition", "contest", "challenge",
+                "wettbewerb", "turnier"],
+            "_a": [
+                {"name": ["bezeichnung", "name"]},
+                {"name": ["datum","tag","wann"]}
+            ]
+        }]
+    },
+    {
+        "de": "Der Wettbewerb, für den ich mich angemeldet habe, heißt Waldturnier. Er ist morgen, am "+tomorrow+". Heute war auch ein Waldturnier, da habe ich aber nicht teilgenommen."
+    },
+    {
+        "de": "Okay, das bedeutet, die Kombination aus Bezeichnung und Datum identifiziert einen Wettbewerb eindeutig.",
+        "me": true,
+        "_e": [{
+            "name": ["competition", "contest", "challenge",
+                "wettbewerb", "turnier"],
+            "_a": [
+                {"name": ["bezeichnung", "name"], "options":["primary"]},
+                {"name": ["datum","tag","wann"], "options":["primary"]}
+            ]
+        }]
+    },
+    {
+        "de": "Ich will auch am Waldturnier teilnehmen!",
+    },
+    {
+        "de": "Na klar! Ich erstelle dazu eine N:M-Beziehung, damit mehrere Monster an einem Wettbewerb und jedes Monster auch an mehreren Wettbewerben teilnehmen können.",
+        "me": true,
+        "_r": [{
+            "name":["nimmtteil","nehmenteil","teilnahme","teilnehmen"],
+            "_e":["monster","competition"],
+            "card":["N","N"]
+        }]
+    },
+    {
+        "de": "Trina, Fibi, hier seid ihr ja! Kommt schnell, sonst verpasst ihr die Eröffnung des Monster Parks! Alles ist startbereit, das ER-Diagramm ist fertig!",
+    },
+    {
+        "de": "Danke, dass du das ER-Diagramm erstellt hast und der Monster Park rechtzeitig eröffnen kann!"
     }
 ]
 
@@ -563,6 +623,7 @@ function check_exercise(continue_button = false) {
                 matching_entities[ent.name[0]] = matching_ent;
 
                 if(ent.isa != undefined) {  // should the entity type be a subtype of another?
+                    if(matching_ent.isa == undefined) { return; } // no supertype specified
                     if(matching_entities[ent.isa] == undefined) { return; } // subtype does not exist
                     if(matching_ent.isa.cid != matching_entities[ent.isa].cell.cid) { return; } // wrong supertype
                 }
@@ -619,21 +680,24 @@ function check_exercise(continue_button = false) {
                 if (matching_rel == null) { // relationship is missing
                     return;
                 }
+                var already_convered = [];
                 for(var j in rel._e) {  // does the relationship connect the correct entity types?
                     var matching_ent = matching_entities[rel._e[j]];
                     if(matching_ent == undefined) { return; } // one of the relationship's entity types is not there
                     var found = false;
                     for(var k in matching_rel._e) {
                         var cid = matching_rel._e[k].cid;
-                        if(cid == matching_ent.cell.cid) {
-                            found = true;
+                        if(cid == matching_ent.cell.cid && !already_convered.includes(k)) {
                             if(rel.card != undefined) {
-                                if(rel.card[j] != matching_rel._e[k].card) { return false; }  // wrong cardinality
+                                if(rel.card[j] == "1" && matching_rel._e[k].card != "1"
+                                || rel.card[j] != "1" && matching_rel._e[k].card == "1") { continue; }  // wrong cardinality
                             }
+                            found = true;
+                            already_convered.push(k);
                             break;
                         }
                     }
-                    if(!found) { // relationship is connecting wrong entity types
+                    if(!found) { // relationship is connecting wrong entity types (or cardinalities do not match)
                         return;
                     }
                 }
