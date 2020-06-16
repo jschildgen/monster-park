@@ -614,7 +614,7 @@ form.nice div.form-field.success small, form.nice small.success {
     height:288px;
     margin-top: 30px;
     margin-bottom: 15px;
-    background: url('../images/wf/avatar.png')  no-repeat;
+    /*background: url('../images/wf/avatar.png')  no-repeat;*/
 
 }
 
@@ -624,8 +624,8 @@ form.nice div.form-field.success small, form.nice small.success {
   height:288px;
   margin-top: 30px;
   margin-bottom: 15px;
-  margin-left: 180px;
-  background: url('../images/trina.png')  no-repeat;
+  margin-left: 190px;
+  /*background: url('../images/arthur_frei.png')  no-repeat;*/
 }
 
 #screen-index .bg-closet {

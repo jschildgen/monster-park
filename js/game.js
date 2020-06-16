@@ -359,13 +359,15 @@ tomorrow = tomorrow.toLocaleDateString();
 story = [
     {
         "de": "Willkommen im MonstER-Park! Hier soll einmal der größte Monster-Freizeitpark der Welt entstehen. Leider läuft es mit der Planung gerade gar nicht gut. Kannst du mir vielleicht etwas helfen, damit der Park pünktlich eröffnen kann? Ich werde nämlich dauernd von diesen kleinen Monstern abgelenkt. Oh da ist ja schon wieder eins!",
+        "left": "avatar.png", "right": "arthur_frei.png",
     },
     {
         "de": "Hallo! Ich bin Monster Nummer 1, ich heiße Bolbo!",
+        "left": "avatar_ueberrascht.png", "right": "bolbo.png",
     },
     {
         "de": "Hi Bolbo! Das heißt also, jedes Monster hat eine Monsternr und einen Namen. Ich erstelle dann also einen Entitätstypen \"Monster\" mit den beiden Attributen \"Monsternr\" und \"Name\".",
-        "me": true,
+        "left": "avatar_winkend.png", "right": "bolbo.png", "me": true,
         "_e": [{
             "name": ["monster", "monsters"],
             "_a": [
@@ -375,10 +377,12 @@ story = [
         }],
     },
     {
-        "de": "Super gemacht! Ich freue mich schon, wenn der MonstER-Park eröffnet wird und uns die ersten Trainer besuchen kommen."
+        "de": "Super gemacht! Ich freue mich schon, wenn der MonstER-Park eröffnet wird und uns die ersten Trainer besuchen kommen.",
+        "left": "avatar_freuend.png", "right": "bolbo.png",
     },
     {
         "de": "Notiere bitte, dass es Trainer geben kann und dass jeder Trainer eine Trainer-ID, einen Spitznamen und ein Geschlecht hat.",
+        "left": "avatar.png", "right": "bolbo.png",
         "_e": [{
             "name": ["trainer", "trainers", "trainerin"],
             "_a": [
@@ -390,10 +394,11 @@ story = [
     },
     {
         "de": "Hab ich schon gesagt, dass ich Monster Nummer 1 bin? Diese Nummer habe nur ich! Es gibt zwar noch weitere Bolbos im Monster Park, aber keiner außer mir hat die Nummer 1.",
+        "left": "avatar.png", "right": "bolbo.png",
     },
     {
         "de": "Okay, das heißt, ich muss die Monsternummer unterstreichen und sie damit zum Primärschlüssel machen, weil sie ein Monster eindeutig identifiziert.",
-        "me": true,
+        "left": "avatar.png", "right": "bolbo.png", "me": true,
         "_e": [{
             "name": ["monster", "monsters"],
             "_a": [
@@ -403,6 +408,7 @@ story = [
     },
     {
         "de": "Wie ist das eigentlich bei Trainern? Was ist da der Primärschlüssel?",
+        "left": "avatar.png", "right": "bolbo.png",
         "_e": [{
             "name": ["trainer", "trainers", "trainerin"],
             "_a": [
@@ -411,10 +417,12 @@ story = [
         }],
     },
     {
-        "de": "Ich hoffe ich finde bald einen Trainer, der sich um mich kümmert!"
+        "de": "Ich hoffe ich finde bald einen Trainer, der sich um mich kümmert!",
+        "left": "avatar.png", "right": "bolbo.png",
     },
     {
         "de": "Ach so, ein Monster gehört also einem Trainer. Dann erstelle ich mal eine Beziehung.",
+        "left": "avatar_freuend.png", "right": "bolbo.png",
         "me": true,
         "_r": [
             {
@@ -425,6 +433,7 @@ story = [
     },
     {
         "de": "Aber Achtung: Jedes Monster gehört immer nur einem Trainer. Aber ein Trainer kann viele Monster haben!",
+        "left": "avatar_ueberrascht.png", "right": "bolbo.png",
         "_r": [
             {
                 "name": ["gehoert", "gehoertzu", "besitzt", "hat"],
@@ -435,6 +444,7 @@ story = [
     },
     {
         "de": "Wusstest du, dass es auch Teams gibt? Ein Team hat einen Teamnamen und eine Farbe.",
+        "left": "avatar.png", "right": "bolbo.png",
         "_e": [
             {
                 "name": ["team", "teams"],
@@ -447,6 +457,7 @@ story = [
     },
     {
         "de": "Da ein Team keine Nummer hat, mach einfach den Teamnamen zum Primärschlüssel. Er ist eindeutig.",
+        "left": "avatar_freuend.png", "right": "bolbo.png",
         "_e": [
             {
                 "name": ["team", "teams"],
@@ -458,6 +469,7 @@ story = [
     },
     {
         "de": "Und jetzt male bitte auf, dass ein Trainer in einem Team sein kann. In einem Team können aber natürlich mehrere Trainer sein!",
+        "left": "avatar_freuend.png", "right": "bolbo.png",
         "_r": [
             {
                 "name": ["in", "istin", "sindin", "gehörtzu", "bestehtaus"],
@@ -467,11 +479,12 @@ story = [
         ]
     },
     {
-        "de": "Ich habe noch was vergessen: Nicht nur Teams haben eine Farbe, sondern auch Monster! Wie du siehst bin ich Gelb-Schwarz!"
+        "de": "Ich habe noch was vergessen: Nicht nur Teams haben eine Farbe, sondern auch Monster! Wie du siehst bin ich Gelb-Schwarz!",
+        "left": "avatar.png", "right": "bolbo.png",
     },
     {
         "de": "Oha, das heißt Monster haben mehrere Farben. \"Farbe\" muss also ein mehrwertiges Attribut sein.",
-        "me": true,
+        "left": "avatar.png", "right": "bolbo.png", "me": true,
         "_e": [{
             "name": ["monster", "monsters"],
             "_a": [
@@ -480,11 +493,12 @@ story = [
         }],
     },
     {
-        "de": "Juhu, jetzt weiß jeder, dass ich Gelb-Schwarz bin! Ich verrate dir nochwas: Ich heiße gar nicht einfach nur Bolbo. Ich heiße Bolbo Brillenfrosch!"
+        "de": "Juhu, jetzt weiß jeder, dass ich Gelb-Schwarz bin! Ich verrate dir nochwas: Ich heiße gar nicht einfach nur Bolbo. Ich heiße Bolbo Brillenfrosch!",
+        "left": "avatar_freuend.png", "right": "bolbo.png",
     },
     {
         "de": "Potzblitz, dann besteht der Name eines Monsters also aus den Sub-Attributen Vorname und Nachname!",
-        "me": true,
+        "left": "avatar.png", "right": "bolbo.png", "me": true,
         "_e": [{
             "name": ["monster", "monsters"],
             "_a": [
@@ -496,10 +510,11 @@ story = [
     },
     {
         "de": "Huhu, ich bin Trina! Ich bin die Tochter von Bolbo!",
+        "left": "avatar.png", "right": "trina.png",
     },
     {
-        "de": "Hi Trina! Das heißt ja dann, Monster können Kinder von anderen Monstern sein.",
-        "me": true,
+        "de": "Hi Trina! Das heißt ja dann, wir brauchen eine Beziehung, damit Monster Kinder von anderen Monstern sein können.",
+        "left": "avatar_winkend.png", "right": "trina.png", "me": true,
         "_r": [
             {
                 "name": ["istkindvon", "kindvon", "kind", "eltern", "elternteil", "hatkind", "hatkinder"],
@@ -509,20 +524,22 @@ story = [
     },
     {
         "de": "Ja genau! Ein Monster hat mehrere Elternteile und Eltern können natürlich auch viele Kinder haben.",
+        "left": "avatar.png", "right": "trina.png",
         "_r": [
             {
                 "name": ["istkindvon", "kindvon", "kind", "eltern", "elternteil", "hatkind", "hatkinder"],
                 "_e": ["monster", "monster"],
-                "card": ["N", "1"]
+                "card": ["N", "M"]
             }
         ]
     },
     {
-        "de": "Wie du siehst, bin ich kein normales Monster. Ich bin ein Flugmonster! Ich habe vier Flügel!"
+        "de": "Wie du siehst, bin ich kein normales Monster. Ich bin ein Flugmonster! Ich habe vier Flügel!",
+        "left": "avatar_ueberrascht.png", "right": "trina.png",
     },
     {
         "de": "Das heißt es muss einen Unter-Entitätstypen \"Flugmonster\" geben. Ein Flugmonster ist ein Monster.",
-        "me": true,
+        "left": "avatar.png", "right": "trina.png", "me": true,
         "_e": [{
             "name": ["flugmonster", "flugmonsters"],
             "isa": "monster"
@@ -530,6 +547,7 @@ story = [
     },
     {
         "de": "Richtig! Außerdem habe ich vier Flügel! Mach bitte, dass man bei Flugmonstern die Anzahl ihrer Flügel angeben kann!",
+        "left": "avatar_freuend.png", "right": "trina.png",
         "_e": [{
             "name": ["flugmonster", "flugmonsters"],
             "_a": [
@@ -539,10 +557,11 @@ story = [
     },
     {
         "de": "Hey, hast du Trina gesehen? Ich habe ihr tolle Neuigkeiten zu erzählen! Und zwar ist meine Temperatur von 800°C auf 900°C gestiegen!",
+        "left": "avatar.png", "right": "fibi.png",
     },
     {
-        "de": "Hi du! Trina kommt bestimmt gleich wieder. Ich vermerke noch kurz, dass es den Subtyp Feuermonster gibt und dass diese eine Temperatur habem.",
-        "me": true,
+        "de": "Hi du! Trina kommt bestimmt gleich wieder. Ich vermerke noch kurz, dass es den Subtyp Feuermonster gibt und dass diese eine Temperatur haben.",
+        "left": "avatar_winkend.png", "right": "fibi.png", "me": true,
         "_e": [{
             "name": ["feuermonster", "feuermonsters"],
             "_a": [
@@ -552,10 +571,12 @@ story = [
         }],
     },
     {
-        "de": "Wie ich sehe, hast du schon meinen Kumpel Fibi kennengelernt. Ich musste gerade kurz verschwinden, weil ich mich für einen Wettbewerb angemeldet habe."
+        "de": "Wie ich sehe, hast du schon meinen Kumpel Fibi kennengelernt. Ich musste gerade kurz verschwinden, weil ich mich für einen Wettbewerb angemeldet habe.",
+        "left": "avatar.png", "right": "trina.png",
     },
     {
         "de": "Hier finden nämlich ganz oft Wettbewerbe statt! Jeder Wettbewerb hat ein Datum und eine Bezeichnung.",
+        "left": "avatar.png", "right": "trina.png",
         "_e": [{
             "name": ["competition", "contest", "challenge",
                 "wettbewerb", "turnier"],
@@ -566,11 +587,12 @@ story = [
         }]
     },
     {
-        "de": "Der Wettbewerb, für den ich mich angemeldet habe, heißt Waldturnier. Er ist morgen, am "+tomorrow+". Heute war auch ein Waldturnier, da habe ich aber nicht teilgenommen."
+        "de": "Der Wettbewerb, für den ich mich angemeldet habe, heißt Waldturnier. Er ist morgen, am "+tomorrow+". Heute war auch ein Waldturnier, da habe ich aber nicht teilgenommen.",
+        "left": "avatar.png", "right": "trina.png",
     },
     {
         "de": "Okay, das bedeutet, die Kombination aus Bezeichnung und Datum identifiziert einen Wettbewerb eindeutig.",
-        "me": true,
+        "left": "avatar.png", "right": "trina.png", "me": true,
         "_e": [{
             "name": ["competition", "contest", "challenge",
                 "wettbewerb", "turnier"],
@@ -582,10 +604,11 @@ story = [
     },
     {
         "de": "Ich will auch am Waldturnier teilnehmen!",
+        "left": "avatar_ueberrascht.png", "right": "fibi.png",
     },
     {
         "de": "Na klar! Ich erstelle dazu eine N:M-Beziehung, damit mehrere Monster an einem Wettbewerb und jedes Monster auch an mehreren Wettbewerben teilnehmen können.",
-        "me": true,
+        "left": "avatar_freuend.png", "right": "fibi.png", "me": true,
         "_r": [{
             "name":["nimmtteil","nehmenteil","teilnahme","teilnehmen"],
             "_e":["monster","competition"],
@@ -594,9 +617,11 @@ story = [
     },
     {
         "de": "Trina, Fibi, hier seid ihr ja! Kommt schnell, sonst verpasst ihr die Eröffnung des Monster Parks! Alles ist startbereit, das ER-Diagramm ist fertig!",
+        "left": "avatar_ueberrascht.png", "right": "bolbo.png",
     },
     {
-        "de": "Danke, dass du das ER-Diagramm erstellt hast und der Monster Park rechtzeitig eröffnen kann!"
+        "de": "Danke, dass du das ER-Diagramm erstellt hast und der Monster Park rechtzeitig eröffnen kann!",
+        "left": "avatar_freuend.png", "right": "arthur_frei.png",
     }
 ]
 
@@ -717,8 +742,10 @@ function check_exercise(continue_button = false) {
         $(".text-box-pointer").css("left", 190);
         $(".text-box-pointer-shadow").css("left", 183);
     }
+    $('#leftimg').css("background", "url('./images/"+ex.left+"') no-repeat");
+    $('#rightimg').css("background", "url('./images/"+ex.right+"') no-repeat");
 
-    if(ex._e == undefined && ex._r == undefined) {
+    if(ex._e == undefined && ex._r == undefined && current_exercise < story.length) {
         $('#continue_button').show();
     } else {
         $('#continue_button').hide();
