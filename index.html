@@ -11,6 +11,23 @@
     <link rel="stylesheet" href="css/joint.min.css">
     <link rel="stylesheet" href="css/app.css">
     <link rel="stylesheet" href="css/fontawesome.min.css">
+
+    <!-- Matomo -->
+    <script type="text/javascript">
+        var _paq = window._paq || [];
+        /* tracker methods like "setCustomDimension" should be called before "trackPageView" */
+        _paq.push(['trackPageView']);
+        _paq.push(['enableLinkTracking']);
+        (function() {
+            var u="https://analytics.t63.de/";
+            _paq.push(['setTrackerUrl', u+'matomo.php']);
+            _paq.push(['setSiteId', '6']);
+            var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+            g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'matomo.js'; s.parentNode.insertBefore(g,s);
+        })();
+    </script>
+    <noscript><p><img src="https://analytics.t63.de/matomo.php?idsite=6&amp;rec=1" style="border:0;" alt="" /></p></noscript>
+    <!-- End Matomo Code -->
 </head>
 <body>
 
@@ -151,10 +168,6 @@
     <p><a href="https://www.johannesschildgen.de" class="button">https://www.johannesschildgen.de</a></p>
     <a class="close-reveal-modal" aria-label="Close">&#215;</a>
 </div>
-
-<!-- Matomo Image Tracker-->
-<img src="https://analytics.t63.de/matomo.php?idsite=6&amp;rec=1" style="border:0" alt="" />
-<!-- End Matomo -->
 
 <script type="text/javascript"  src="./js/jquery-1.11.3.min.js"></script>
 <script type="text/javascript"  src="./js/jquery-ui.min.js"></script>

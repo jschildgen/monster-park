@@ -732,6 +732,7 @@ function check_exercise(continue_button = false) {
 
     if(!continue_button && story[current_exercise]._e == undefined && story[current_exercise]._r == undefined) { return; }
 
+    _paq.push(['trackEvent', 'Game', 'Level', ''+current_exercise]);
     current_exercise++;
     ex = story[current_exercise];
     $('#exercise_text').text(ex.de);
