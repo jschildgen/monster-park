@@ -5,7 +5,7 @@ _r = [];
 $("#ctrl_new_entitytype").click(do_create_entitytype = function() {
     var cell = createEntitytype({"_e":""}); /* add to graph */
     _e[cell.cid] = {cell: cell};                /* add to entity directory */
-    if(highlighted_cell != undefined) { onSelect(highlighted_cell); }
+    highlight(cell);
     check_exercise();
 });
 
@@ -13,7 +13,7 @@ $("#ctrl_new_entitytype").click(do_create_entitytype = function() {
 $("#ctrl_new_relationship").click(do_create_relationship = function() {
     var cell = createRelationship({"_r":""}); /* add to graph */
     _r[cell.cid] = {cell: cell};                  /* add to entity directory */
-    if(highlighted_cell != undefined) { onSelect(highlighted_cell); }
+    highlight(cell);
     check_exercise();
 });
 
@@ -22,13 +22,18 @@ $('#ctrl_new_attribute,#ctrl_new_subattribute').click(do_create_attribute = func
     if(highlighted_cell == undefined) { return; }
     var cid = highlighted_cell.model.cid;
     var parent;
-    switch(highlighted_cell.attributes()["data-type"]) {
-        case "erd.Entity": parent = _e[cid]; break;
-        case "erd.Relationship" : parent = _r[cid]; break;
-        default:
-            if(this.id == 'ctrl_new_subattribute') { parent = find_attribute(cid); break; }
-            parent = find_root(cid); break;    /* attribute is selected => find its parent entity type or relationship */
+    if(cid in _e) {
+        parent = _e[cid];
+    } else if(cid in _r) {
+        parent = _r[cid];
+    } else {
+        if (this.id == 'ctrl_new_subattribute') {
+            parent = find_attribute(cid);
+        } else {
+            parent = find_root(cid);            /* attribute is selected => find its parent entity type or relationship */
+        }
     }
+
     if(parent._a == undefined) { parent._a = []; }
     var att_obj = new Attribute();
     graph.addCell(att_obj);                     /* add to graph */
@@ -36,6 +41,7 @@ $('#ctrl_new_attribute,#ctrl_new_subattribute').click(do_create_attribute = func
         parent.cell.position().y-200+Math.floor(Math.random()*400));
     createLink(parent.cell, att_obj, graph);
     parent._a[att_obj.cid] = {cell: att_obj};    /* add to _e/_r directory */
+    highlight(att_obj);
     check_exercise();
 });
 
@@ -159,16 +165,12 @@ function find_root(cid) {
 $("#ctrl_input_name").keyup(function() {
     var cid = highlighted_cell.model.cid;
     var entry;
-    switch(highlighted_cell.attributes()["data-type"]) {
-        case "erd.Entity":
-            entry = _e[cid];
-            break;
-        case "erd.Relationship":
-            entry = _r[cid];
-            break;
-        default:
-            entry = find_attribute(cid);
-            break;
+    if(cid in _e) {
+        entry = _e[cid];
+    } else if(cid in _r) {
+        entry = _r[cid];
+    } else {
+        entry = find_attribute(cid);
     }
     entry.name = $(this).val();             /* change name in directory */
     entry.cell.attr("text/text",$(this).val())  /* change name in graph */
@@ -232,93 +234,89 @@ function onSelect(cell) {
     onUnselect();
     var cid = cell.model.cid;
 
-    switch (cell.attributes()["data-type"]) {
-        case "erd.Entity":
-            $(".ctrl_entitytype").css("visibility", "visible").show();
-            $("#ctrl_input_name").val(_e[cid].name != undefined ? _e[cid].name : "");
-            $("#ctrl_input_name").focus();
+    if(cid in _e) {
+        $(".ctrl_entitytype").css("visibility", "visible").show();
+        $("#ctrl_input_name").val(_e[cid].name != undefined ? _e[cid].name : "");
+        $("#ctrl_input_name").focus();
 
-            /* select lists for participating entity types */
-            $('#ctrl_select_super').html('<option></option>');
-            for(var super_cid in _e) {
-                if(super_cid == cid) { continue; /* not showing entity type itself */ }
-                /* selected as supertype */
-                if(_e[cid].isa != undefined && _e[cid].isa.cid == super_cid) {
-                    $('#ctrl_select_super').append(new Option(_e[super_cid].name, super_cid, true, true));
-                } else {
-                    $('#ctrl_select_super').append(new Option(_e[super_cid].name, super_cid));
-                }
+        /* select lists for participating entity types */
+        $('#ctrl_select_super').html('<option></option>');
+        for (var super_cid in _e) {
+            if (super_cid == cid) {
+                continue; /* not showing entity type itself */
             }
-
-            break;
-
-        case "erd.Relationship":
-            var rel = _r[cid];
-            $(".ctrl_relationship").css("visibility", "visible").show();
-            $("#ctrl_input_name").val(_r[cid].name != undefined ? _r[cid].name : "");
-            $("#ctrl_input_name").focus();
-
-            /* select lists for participating entity types */
-            $('#ctrl_select_e1,#ctrl_select_e2').html('<option></option>');
-            for(var cid in _e) {
-                /* selected as first entity type */
-                if(rel._e != undefined && rel._e[0] != undefined && rel._e[0].cid == cid) {
-                    $('#ctrl_select_e1').append(new Option(_e[cid].name, cid, true, true));
-                } else {
-                    $('#ctrl_select_e1').append(new Option(_e[cid].name, cid));
-                }
-                /* selected as second entity type */
-                if(rel._e != undefined && rel._e[1] != undefined && rel._e[1].cid == cid) {
-                    $('#ctrl_select_e2').append(new Option(_e[cid].name, cid, true, true));
-                } else {
-                    $('#ctrl_select_e2').append(new Option(_e[cid].name, cid));
-                }
-            }
-
-            /* select list for cardinalities */
-            $('#ctrl_card_e1,#ctrl_card_e2').html('');
-            var cards = ["1", "1"]
-            if(rel._e != undefined && rel._e[0] != undefined) { cards[0] = rel._e[0].card }
-            if(rel._e != undefined && rel._e[1] != undefined) { cards[1] = rel._e[1].card }
-
-            var N_or_M = "N"; /* option for second cardinality */
-            if(cards[0] == "1") {
-                $('#ctrl_card_e1').append(new Option("1", "1", true, true));
-                $('#ctrl_card_e1').append(new Option("N", "N"));
+            /* selected as supertype */
+            if (_e[cid].isa != undefined && _e[cid].isa.cid == super_cid) {
+                $('#ctrl_select_super').append(new Option(_e[super_cid].name, super_cid, true, true));
             } else {
-                $('#ctrl_card_e1').append(new Option("1", "1"));
-                $('#ctrl_card_e1').append(new Option("N", "N", true, true));
-                N_or_M = "M";
+                $('#ctrl_select_super').append(new Option(_e[super_cid].name, super_cid));
             }
+        }
+    } else if (cid in _r) {
+        var rel = _r[cid];
+        $(".ctrl_relationship").css("visibility", "visible").show();
+        $("#ctrl_input_name").val(_r[cid].name != undefined ? _r[cid].name : "");
+        $("#ctrl_input_name").focus();
 
-            if(cards[1] == "1") {
-                $('#ctrl_card_e2').append(new Option("1", "1", true, true));
-                $('#ctrl_card_e2').append(new Option(N_or_M, N_or_M));
+        /* select lists for participating entity types */
+        $('#ctrl_select_e1,#ctrl_select_e2').html('<option></option>');
+        for (var cid in _e) {
+            /* selected as first entity type */
+            if (rel._e != undefined && rel._e[0] != undefined && rel._e[0].cid == cid) {
+                $('#ctrl_select_e1').append(new Option(_e[cid].name, cid, true, true));
             } else {
-                $('#ctrl_card_e2').append(new Option("1", "1"));
-                $('#ctrl_card_e2').append(new Option(N_or_M, N_or_M, true, true));
+                $('#ctrl_select_e1').append(new Option(_e[cid].name, cid));
             }
-
-
-
-            break;
-        case "erd.Normal":      /* Attribute */
-            $(".ctrl_attribute").css("visibility", "visible").show();
-            var attr = find_attribute(cid);
-            $("#ctrl_input_name").val(attr.name != undefined ? attr.name : "");
-            $("#ctrl_input_name").focus();
-            if(find_root(cid).cell.attributes.type == "erd.Relationship") {
-                $('.hide_for_relationship_attributes').hide();
+            /* selected as second entity type */
+            if (rel._e != undefined && rel._e[1] != undefined && rel._e[1].cid == cid) {
+                $('#ctrl_select_e2').append(new Option(_e[cid].name, cid, true, true));
             } else {
-                $('.hide_for_relationship_attributes').show();
+                $('#ctrl_select_e2').append(new Option(_e[cid].name, cid));
             }
+        }
 
-            $("#attr_primary").prop("checked", (attr.options != undefined && attr.options.indexOf("primary")>-1));
-            $("#attr_mult").prop("checked", (attr.options != undefined && attr.options.indexOf("multi")>-1));
-            break;
+        /* select list for cardinalities */
+        $('#ctrl_card_e1,#ctrl_card_e2').html('');
+        var cards = ["1", "1"]
+        if (rel._e != undefined && rel._e[0] != undefined) {
+            cards[0] = rel._e[0].card
+        }
+        if (rel._e != undefined && rel._e[1] != undefined) {
+            cards[1] = rel._e[1].card
+        }
 
-        default:
-            return;
+        var N_or_M = "N"; /* option for second cardinality */
+        if (cards[0] == "1") {
+            $('#ctrl_card_e1').append(new Option("1", "1", true, true));
+            $('#ctrl_card_e1').append(new Option("N", "N"));
+        } else {
+            $('#ctrl_card_e1').append(new Option("1", "1"));
+            $('#ctrl_card_e1').append(new Option("N", "N", true, true));
+            N_or_M = "M";
+        }
+
+        if (cards[1] == "1") {
+            $('#ctrl_card_e2').append(new Option("1", "1", true, true));
+            $('#ctrl_card_e2').append(new Option(N_or_M, N_or_M));
+        } else {
+            $('#ctrl_card_e2').append(new Option("1", "1"));
+            $('#ctrl_card_e2').append(new Option(N_or_M, N_or_M, true, true));
+        }
+    } else {
+        var attr = find_attribute(cid);
+        if(attr == null) { return; }
+
+        $(".ctrl_attribute").css("visibility", "visible").show();
+        $("#ctrl_input_name").val(attr.name != undefined ? attr.name : "");
+        $("#ctrl_input_name").focus();
+        if (find_root(cid).cell.attributes.type == "erd.Relationship") {
+            $('.hide_for_relationship_attributes').hide();
+        } else {
+            $('.hide_for_relationship_attributes').show();
+        }
+
+        $("#attr_primary").prop("checked", (attr.options != undefined && attr.options.indexOf("primary") > -1));
+        $("#attr_mult").prop("checked", (attr.options != undefined && attr.options.indexOf("multi") > -1));
     }
     $("#ctrl_delete").removeClass("disabled brown").addClass("red");
 }

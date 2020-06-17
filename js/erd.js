@@ -564,8 +564,11 @@ function initERD(erdDiv, width, height) {
 
     paper.on('blank:pointerup', function (cell, evt, x, y) {
         onUnselect();
-        if(highlighted_cell != undefined) {
+        if(highlighted_cell != undefined && highlighted_cell.unhighlight != undefined) {
             highlighted_cell.unhighlight();
+        } else if (highlighted_cell != undefined) {
+            highlighter.remove();
+            highlighted_cell = null;
         }
     })
 
@@ -713,6 +716,17 @@ graph.on('change:position', function (cell) {
 
     onMove(cell);
 });
+
+function highlight(cell) {
+    highlighted_cell = cell;
+    if(highlighted_cell.model == undefined) { highlighted_cell.model = {"cid":highlighted_cell.cid}; }
+    onSelect(highlighted_cell);
+    var padding = 5;
+    var bbox = cell.getBBox({ useModelGeometry: true }).inflate(padding);
+    highlighter.translate(bbox.x, bbox.y, { absolute: true });
+    highlighter.attr('d', cell.getHighlighterPath(bbox.width, bbox.height));
+    V(paper.viewport).append(highlighter);
+}
 
 initERD($("#erd"), 770, null);
 //createEntitytype({"_e":"Monster", attributes:[{_a:"Monsternr",options:["primary"]},{_a:"Name"}]});
