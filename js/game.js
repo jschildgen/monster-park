@@ -77,7 +77,12 @@ $("#attr_primary,#attr_mult").change(function() {
 /* deleting an entity type, relationship or attribute */
 $("#ctrl_delete").click(do_delete = function() {
     var cid = highlighted_cell.model.cid;
-    highlighted_cell.unhighlight();
+    if(highlighted_cell != undefined && highlighted_cell.unhighlight != undefined) {
+        highlighted_cell.unhighlight();
+    } else if (highlighted_cell != undefined) {
+        highlighter.remove();
+        highlighted_cell = null;
+    }
     graph.removeCells(graph.getCell(cid));  /* remove from graph */
     delete_entitytype(cid);                 /* remove from directory */
     delete_relationship(cid);
@@ -472,7 +477,7 @@ story = [
         "left": "avatar_freuend.png", "right": "bolbo.png",
         "_r": [
             {
-                "name": ["in", "istin", "sindin", "gehörtzu", "gehörtan", "bestehtaus"],
+                "name": ["in", "istin", "sindin", "gehoertzu", "gehoertan", "bestehtaus"],
                 "_e": ["trainer", "team"],
                 "card": ["N", "1"]
             }
