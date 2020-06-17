@@ -376,7 +376,7 @@ story = [
             ]
         }],
     },
-    /*{
+    {
         "de": "Super gemacht! Ich freue mich schon, wenn der MonstER-Park eröffnet wird und uns die ersten Trainer besuchen kommen.",
         "left": "avatar_freuend.png", "right": "bolbo.png",
     },
@@ -614,7 +614,7 @@ story = [
             "_e":["monster","competition"],
             "card":["N","N"]
         }]
-    },*/
+    },
     {
         "de": "Trina, Fibi, hier seid ihr ja! Kommt schnell, sonst verpasst ihr die Eröffnung des Monster Parks! Alles ist startbereit, das ER-Diagramm ist fertig!",
         "left": "avatar_ueberrascht.png", "right": "bolbo.png",
