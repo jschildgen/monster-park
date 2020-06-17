@@ -773,10 +773,10 @@ $('#continue_button').click(function() {
 function norm(s) {
     if(s==undefined) { return undefined; }
     return s.toLowerCase()
-        .replace("ä", "ae")
-        .replace("ö", "oe")
-        .replace("ü", "ue")
-        .replace("ß", "ss")
+        .replace(RegExp(String.fromCharCode(228),"g"), "ae")
+        .replace(RegExp(String.fromCharCode(246),"g"), "oe")
+        .replace(RegExp(String.fromCharCode(252),"g"), "ue")
+        .replace(RegExp(String.fromCharCode(223),"g"), "ss")
         .replace(/[^a-z0-9]/g,"");
 }
 
