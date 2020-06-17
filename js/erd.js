@@ -719,7 +719,7 @@ graph.on('change:position', function (cell) {
 
 function highlight(cell) {
     highlighted_cell = cell;
-    if(highlighted_cell.model == undefined) { highlighted_cell.model = {"cid":highlighted_cell.cid}; }
+    if(highlighted_cell.model == undefined) { highlighted_cell.model = highlighted_cell; }
     onSelect(highlighted_cell);
     var padding = 5;
     var bbox = cell.getBBox({ useModelGeometry: true }).inflate(padding);

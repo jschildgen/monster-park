@@ -67,6 +67,8 @@ $("#attr_primary,#attr_mult").change(function() {
         highlighted_cell.model.attributes.attrs = normal_attr;
     }
 
+    if(attr.name == undefined) { attr.name = ""; }
+
     highlighted_cell.model.attr("text/text", attr.name+"_");
     highlighted_cell.model.attr("text/text", attr.name);
     check_exercise();
@@ -470,7 +472,7 @@ story = [
         "left": "avatar_freuend.png", "right": "bolbo.png",
         "_r": [
             {
-                "name": ["in", "istin", "sindin", "gehörtzu", "bestehtaus"],
+                "name": ["in", "istin", "sindin", "gehörtzu", "gehörtan", "bestehtaus"],
                 "_e": ["trainer", "team"],
                 "card": ["N", "1"]
             }
