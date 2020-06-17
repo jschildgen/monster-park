@@ -376,7 +376,7 @@ story = [
             ]
         }],
     },
-    {
+    /*{
         "de": "Super gemacht! Ich freue mich schon, wenn der MonstER-Park eröffnet wird und uns die ersten Trainer besuchen kommen.",
         "left": "avatar_freuend.png", "right": "bolbo.png",
     },
@@ -614,7 +614,7 @@ story = [
             "_e":["monster","competition"],
             "card":["N","N"]
         }]
-    },
+    },*/
     {
         "de": "Trina, Fibi, hier seid ihr ja! Kommt schnell, sonst verpasst ihr die Eröffnung des Monster Parks! Alles ist startbereit, das ER-Diagramm ist fertig!",
         "left": "avatar_ueberrascht.png", "right": "bolbo.png",
@@ -628,7 +628,12 @@ story = [
 current_exercise = -1;
 
 function check_exercise(continue_button = false) {
-    if(current_exercise >= story.length) { return; }
+    if(current_exercise >= story.length-1) {
+        fireworks.start.apply(fireworks);
+        _paq.push(['trackEvent', 'Game', 'Completed', '']);
+        $('#continue_button').hide();
+        return;
+    }
     var matching_entities = [];
     for(var e = 0; e <= current_exercise; e++) {
         var ex = story[e];
@@ -746,7 +751,7 @@ function check_exercise(continue_button = false) {
     $('#leftimg').css("background", "url('./images/"+ex.left+"') no-repeat");
     $('#rightimg').css("background", "url('./images/"+ex.right+"') no-repeat");
 
-    if(ex._e == undefined && ex._r == undefined && current_exercise < story.length) {
+    if(ex._e == undefined && ex._r == undefined) {
         $('#continue_button').show();
     } else {
         $('#continue_button').hide();
