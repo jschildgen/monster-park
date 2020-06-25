@@ -262,6 +262,7 @@ function onSelect(cell) {
     } else if (cid in _r) {
         var rel = _r[cid];
         $(".ctrl_relationship").css("visibility", "visible").show();
+        $("#ctrl_input_name_box").css("left", "212px");
         $("#ctrl_input_name").val(_r[cid].name != undefined ? _r[cid].name : "");
         $("#ctrl_input_name").focus();
 
@@ -335,6 +336,7 @@ function onUnselect() {
     $(".ctrl_relationship").css("visibility", "hidden").hide();
     $(".ctrl_attribute").css("visibility", "hidden").hide();
     $("#ctrl_input_name").val("");
+    $("#ctrl_input_name_box").css("left", "63px");
 }
 
 function onMove(cell) {
