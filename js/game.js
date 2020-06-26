@@ -825,7 +825,7 @@ function do_unhighlight() {
     }
 }
 
-function f() {
+function screenshot() {
     do_unhighlight();
     $('#erd').css('background-color', 'white');
     graph.getLinks().forEach(function(link) {
@@ -835,10 +835,12 @@ function f() {
                 fill: 'none'
             },
             '.connection-wrap': {
-                fill: 'none'
+                fill: 'none',
+                visibility: 'hidden'
             },
             '.marker-vertices': {
-                fill: 'none'
+                fill: 'none',
+                visibility: 'hidden'
             },
             '.link-tools': {
                 fill: 'none'
