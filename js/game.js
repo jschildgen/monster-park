@@ -433,7 +433,7 @@ story = [
         "me": true,
         "_r": [
             {
-                "name": ["gehoert", "gehoert zu", "besitzt", "hat", "kuemmertsichum", "trainiert"],
+                "name": ["gehoert", "gehoertzu", "besitzt", "hat", "kuemmertsichum", "trainiert"],
                 "_e": ["monster", "trainer"],
             }
         ]
@@ -524,7 +524,7 @@ story = [
         "left": "avatar_winkend.png", "right": "trina.png", "me": true,
         "_r": [
             {
-                "name": ["istkindvon", "kindvon", "kind", "eltern", "elternteil", "hatkind", "hatkinder"],
+                "name": ["istkindvon", "istkind", "kindvon", "kind", "eltern", "elternteil", "hatkind", "hatkinder"],
                 "_e": ["monster", "monster"],
             }
         ]
@@ -576,7 +576,7 @@ story = [
         "left": "avatar.png", "right": "trina.png",
         "_e": [{
             "name": ["competition", "contest", "challenge",
-                "wettbewerb", "turnier"],
+                "wettbewerb", "turnier", "wettbewerbe", "turniere"],
             "_a": [
                 {"name": ["bezeichnung", "name"]},
                 {"name": ["datum","tag","wann"]}
