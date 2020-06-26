@@ -790,6 +790,16 @@ $('#continue_button').click(function() {
     check_exercise(true);
 });
 
+$('#really-restart-button').click(function() {
+    location.reload();
+});
+
+$('#not-restart-button').click(function(e){
+    $('#restart-modal').foundation('reveal', 'close');
+    $('.menu-content').hide();
+    $('.menu-bg').hide();
+});
+
 
 function norm(s) {
     if(s==undefined) { return undefined; }
