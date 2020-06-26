@@ -790,6 +790,12 @@ $('#continue_button').click(function() {
     check_exercise(true);
 });
 
+$('#joyride-button').click(function(e){
+    $(document).foundation('joyride', 'start');
+    $('.menu-content').hide();
+    $('.menu-bg').hide();
+});
+
 $('#really-restart-button').click(function() {
     location.reload();
 });
