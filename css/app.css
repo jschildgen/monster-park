@@ -70,6 +70,11 @@ h3 { font-size: 18px; font-size: 1.8rem; font-weight: bold; margin: 0 0 10px;}
 h4 { font-size: 16px; font-size: 1.6rem; font-weight: bold; margin: 0 0 5px;}
 p { font-size: 14px; font-size: 1.4rem; margin: 5px 0 10px; }
 
+@media screen and (max-width : 1204px)
+{
+    h3 { font-size: 15px; font-size: 1.5rem; font-weight: bold; margin: 0 0 10px;}
+}
+
 a:focus{
     outline: 1px dotted #F8D424;
 }
