@@ -433,8 +433,8 @@ story = [
         "me": true,
         "_r": [
             {
-                "name": ["gehoert", "gehoert zu", "besitzt", "hat"],
-                "_e": ["monster", "trainer"]
+                "name": ["gehoert", "gehoert zu", "besitzt", "hat", "kuemmertsichum", "trainiert"],
+                "_e": ["monster", "trainer"],
             }
         ]
     },
@@ -553,16 +553,6 @@ story = [
         }],
     },
     {
-        "de": "Richtig! Außerdem habe ich vier Flügel! Mach bitte, dass man bei Flugmonstern die Anzahl ihrer Flügel angeben kann!",
-        "left": "avatar_freuend.png", "right": "trina.png",
-        "_e": [{
-            "name": ["flugmonster", "flugmonsters"],
-            "_a": [
-                {"name":["anzahlfluegel","anzfluegel","fluegel","fluegelanz","fluegelanzahl"] }
-            ]
-        }],
-    },
-    {
         "de": "Hey, hast du Trina gesehen? Ich habe ihr tolle Neuigkeiten zu erzählen! Und zwar ist meine Temperatur von 800°C auf 900°C gestiegen!",
         "left": "avatar.png", "right": "fibi.png",
     },
@@ -620,6 +610,16 @@ story = [
             "name":["nimmtteil","nehmenteil","teilnahme","teilnehmen"],
             "_e":["monster","competition"],
             "card":["N","N"]
+        }]
+    },
+    {
+        "de": "Es ist noch wichtig, dass wir speichern, wann sich ein Monster für einen Wettbewerb angemeldet hat, also ein Beziehungsattribut \"Anmeldedatum\" oder sowas.",
+        "left": "avatar_freuend.png", "right": "fibi.png",
+        "_r": [{
+            "name":["nimmtteil","nehmenteil","teilnahme","teilnehmen"],
+            "_e":["monster","competition"],
+            "card":["N","N"],
+            "_a": [{"name":["anmeldedatum", "angemeldet", "anmeldung", "angemeldetam", "anmeldezeitpunkt", "anmeldezeit", "registriertam", "registrierdatum"]}]
         }]
     },
     {
@@ -717,25 +717,44 @@ function check_exercise(continue_button = false) {
                 if (matching_rel == null) { // relationship is missing
                     return;
                 }
-                var already_convered = [];
+                var already_covered = [];
                 for(var j in rel._e) {  // does the relationship connect the correct entity types?
                     var matching_ent = matching_entities[rel._e[j]];
                     if(matching_ent == undefined) { return; } // one of the relationship's entity types is not there
                     var found = false;
                     for(var k in matching_rel._e) {
                         var cid = matching_rel._e[k].cid;
-                        if(cid == matching_ent.cell.cid && !already_convered.includes(k)) {
+                        if(cid == matching_ent.cell.cid && !already_covered.includes(k)) {
                             if(rel.card != undefined) {
                                 if(rel.card[j] == "1" && matching_rel._e[k].card != "1"
                                 || rel.card[j] != "1" && matching_rel._e[k].card == "1") { continue; }  // wrong cardinality
                             }
                             found = true;
-                            already_convered.push(k);
+                            already_covered.push(k);
                             break;
                         }
                     }
                     if(!found) { // relationship is connecting wrong entity types (or cardinalities do not match)
                         return;
+                    }
+                }
+                if(rel._a != undefined) {
+                    // are the required relationship attributes present?
+                    for (var a in rel._a) {
+                        var att = rel._a[a];
+                        var matching_att = null;
+                        if (matching_rel._a == undefined) {
+                            return; // relationship has no attributes at all
+                        }
+                        for (var j in matching_rel._a) {
+                            if (att.name.includes(norm(matching_rel._a[j].name))) {
+                                matching_att = matching_rel._a[j];
+                                break;
+                            }
+                        }
+                        if (matching_att == null) { // attribute is missing
+                            return;
+                        }
                     }
                 }
             }
