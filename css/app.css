@@ -284,7 +284,6 @@ span:focus {
     -webkit-box-shadow: rgba(0,0,0,0) 0 0 0 0;
     -moz-box-shadow: rgba(0,0,0,0) 0 0 0 0;
     box-shadow: rgba(0,0,0,0) 0 0 0 0;
-    z-index: 31;
 }
 
 .menu-button:hover, .menu-button:focus {

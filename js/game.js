@@ -365,7 +365,7 @@ tomorrow = tomorrow.toLocaleDateString();
 
 story = [
     {
-        "de": "Willkommen im MonstER-Park! Hier soll einmal der größte Monster-Freizeitpark der Welt entstehen. Leider läuft es mit der Planung gerade gar nicht gut. Kannst du mir vielleicht etwas helfen, damit der Park pünktlich eröffnen kann? Ich werde nämlich dauernd von diesen kleinen Monstern abgelenkt. Oh da ist ja schon wieder eins!",
+        "de": "Willkommen im MonstER-Park! Hier soll einmal der größte Monster-Freizeitpark der Welt entstehen. Leider läuft es mit der Planung gerade gar nicht gut. Kannst du mir vielleicht etwas helfen, damit der Park pünktlich eröffnen kann? Ich werde nämlich dauernd von diesen kleinen Monstern abgelenkt. Oh, da ist ja schon wieder eins!",
         "left": "avatar.png", "right": "arthur_frei.png",
     },
     {
@@ -456,7 +456,7 @@ story = [
             {
                 "name": ["team", "teams"],
                 "_a": [
-                    {"name": ["teamname", "name"]},
+                    {"name": ["teamname", "name" ]},
                     {"name": ["farbe", "teamfarbe"]}
                 ]
             }
@@ -479,7 +479,7 @@ story = [
         "left": "avatar_freuend.png", "right": "bolbo.png",
         "_r": [
             {
-                "name": ["in", "istin", "sindin", "gehoertzu", "gehoertan", "bestehtaus"],
+                "name": ["in", "istin", "sindin", "gehoertzu", "gehoertan", "bestehtaus", "istmitgliedvon", "istmitgliedin", "istmitglied", "mitglied", "mitgliedvon", "mitgliedin"],
                 "_e": ["trainer", "team"],
                 "card": ["N", "1"]
             }
@@ -500,7 +500,7 @@ story = [
         }],
     },
     {
-        "de": "Juhu, jetzt weiß jeder, dass ich Gelb-Schwarz bin! Ich verrate dir nochwas: Ich heiße gar nicht einfach nur Bolbo. Ich heiße Bolbo Brillenfrosch!",
+        "de": "Juhu, jetzt weiß jeder, dass ich Gelb-Schwarz bin! Ich verrate dir noch was: Ich heiße gar nicht einfach nur Bolbo. Ich heiße Bolbo Brillenfrosch!",
         "left": "avatar_freuend.png", "right": "bolbo.png",
     },
     {
