@@ -50,9 +50,11 @@ $html = <<<HTML
 <h1 style="text-align:center; font-size:22pt">This is to certify that</h1>
 <h1 style="text-align:center; font-size:32pt">$playername</h1>
 <h1 style="text-align:center; font-size:22pt">has successfully completed the<br>learning game MonstER Park.</h1>
-<h1 style="text-align:center; font-size:16pt">&nbsp;<br>ID: $cert_id</h1>
-<h1 style="text-align:center; font-size:16pt">URL: https://www.monst-er.de/cert.php?id=$cert_id</h1>
-<h1 style="text-align:right; font-size:10pt">&nbsp;<br>monst-er.de</h1>
+<h1 style="font-size:15.2pt;"><br>&nbsp;<br>&nbsp;<br>&nbsp;<br>&nbsp;<br>&nbsp;<br>&nbsp;<br>&nbsp;<br>&nbsp;<br>&nbsp;<br>&nbsp;<br>&nbsp;<br>&nbsp;<br>&nbsp;<br>&nbsp;<br>&nbsp;<br>&nbsp;<br></h1>
+<h1 style="text-align:center; font-size:16pt;">$cert_id</h1>
+<h1 style="text-align:center; font-size:16pt;">URL: https://www.monst-er.de/cert.php?id=$cert_id</h1>
+<h1 style="text-align:right; font-size:10pt">monst-er.de</h1>
+
 </body></html>
 HTML;
 
@@ -89,7 +91,7 @@ $pdf->SetHeaderMargin(PDF_MARGIN_HEADER);
 $pdf->SetFooterMargin(PDF_MARGIN_FOOTER);
 
 // Automatisches Autobreak der Seiten
-$pdf->SetAutoPageBreak(TRUE, 0.5*PDF_MARGIN_BOTTOM);
+$pdf->SetAutoPageBreak(TRUE, 0.0*PDF_MARGIN_BOTTOM);
 
 // Image Scale
 $pdf->setImageScale(PDF_IMAGE_SCALE_RATIO);
@@ -105,10 +107,18 @@ $pdf->AddPage();
 
 // Fügt den HTML Code in das PDF Dokument ein
 
+// Image($file, $x='', $y='', $w=0, $h=0, $type='', $link='', $align='', $resize=false, $dpi=300, $palign='', $ismask=false, $imgmask=false, $border=0, $fitbox=false, $hidden=false, $fitonpage=false)
+
 $pdf->Image("images/certificate_ribbon.png", 17, 20, 714/4, 122/4, '', '', '', false, 300, '', false, false, 0);
-$pdf->Image("images/wf/avatar_schwert_freuend.png", 30, 128, 140/5, 288/5, '', '', '', false, 300, '', false, false, 0);
-$pdf->Image("images/wf/dieter.png", 230, 128, 140/5, 288/5, '', '', '', false, 300, '', false, false, 0);
+$pdf->Image("images/trina.png", 150, 7, 140/5, 288/5, '', '', '', false, 300, '', false, false, 0);
+$pdf->StartTransform();
+$pdf->MirrorH(50);
+$pdf->Image("images/fibi.png", 40, 228, 140/6, 288/6, '', '', '', false, 300, '', false, false, 0);
+$pdf->StopTransform();
+$pdf->Image("images/bolbo.png", 150, 218, 140/5, 288/5, '', '', '', false, 300, '', false, false, 0);
 $pdf->writeHTML($html, true, false, true, false, '');
+
+$pdf->deletePage(2);
 
 //Ausgabe der PDF
 

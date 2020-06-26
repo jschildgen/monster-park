@@ -77,12 +77,7 @@ $("#attr_primary,#attr_mult").change(function() {
 /* deleting an entity type, relationship or attribute */
 $("#ctrl_delete").click(do_delete = function() {
     var cid = highlighted_cell.model.cid;
-    if(highlighted_cell != undefined && highlighted_cell.unhighlight != undefined) {
-        highlighted_cell.unhighlight();
-    } else if (highlighted_cell != undefined) {
-        highlighter.remove();
-        highlighted_cell = null;
-    }
+    do_unhighlight();
     graph.removeCells(graph.getCell(cid));  /* remove from graph */
     delete_entitytype(cid);                 /* remove from directory */
     delete_relationship(cid);
@@ -820,3 +815,39 @@ function norm(s) {
 $(function () {
     check_exercise(true);
 });
+
+function do_unhighlight() {
+    if(highlighted_cell != undefined && highlighted_cell.unhighlight != undefined) {
+        highlighted_cell.unhighlight();
+    } else if (highlighted_cell != undefined) {
+        highlighter.remove();
+        highlighted_cell = null;
+    }
+}
+
+function f() {
+    do_unhighlight();
+    $('#erd').css('background-color', 'white');
+    graph.getLinks().forEach(function(link) {
+        link.attr({
+
+            '.marker-arrowheads': {
+                fill: 'none'
+            },
+            '.connection-wrap': {
+                fill: 'none'
+            },
+            '.marker-vertices': {
+                fill: 'none'
+            },
+            '.link-tools': {
+                fill: 'none'
+            }
+        });
+    });
+
+    ele = document.querySelector('#erd').parentNode.parentNode;
+    html2canvas(ele, {}).then( canvas => {
+        document.write('<img src="'+canvas.toDataURL("image/png")+'"/>');
+    })
+}

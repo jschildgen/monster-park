@@ -581,9 +581,7 @@ function initERD(erdDiv, width, height) {
         && cellView.attributes()["data-type"] != "erd.Relationship"
         && cellView.attributes()["data-type"] != "erd.Normal") {
             onUnselect();
-            if(highlighted_cell != undefined) {
-                highlighted_cell.unhighlight();
-            }
+            do_unhighlight();
             return;
         }
         highlighted_cell = cellView;
