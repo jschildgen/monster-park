@@ -326,12 +326,12 @@ function onSelect(cell) {
         $("#attr_primary").prop("checked", (attr.options != undefined && attr.options.indexOf("primary") > -1));
         $("#attr_mult").prop("checked", (attr.options != undefined && attr.options.indexOf("multi") > -1));
     }
-    $("#ctrl_delete").removeClass("disabled brown").addClass("red");
+    $("#ctrl_delete").css("visibility", "visible").show();
 }
 
 
 function onUnselect() {
-    $("#ctrl_delete").removeClass("red").addClass("disabled brown");
+    $("#ctrl_delete").css("visibility", "hidden").hide();
     $(".ctrl_entitytype").css("visibility", "hidden").hide();
     $(".ctrl_relationship").css("visibility", "hidden").hide();
     $(".ctrl_attribute").css("visibility", "hidden").hide();
@@ -479,7 +479,7 @@ story = [
         "left": "avatar_freuend.png", "right": "bolbo.png",
         "_r": [
             {
-                "name": ["in", "istin", "sindin", "gehoertzu", "gehoertan", "bestehtaus", "istmitgliedvon", "istmitgliedin", "istmitglied", "mitglied", "mitgliedvon", "mitgliedin"],
+                "name": ["in", "istin", "sindin", "gehoertzu", "gehoertan", "bestehtaus", "istmitgliedvon", "istmitgliedin", "istmitglied", "mitglied", "mitgliedvon", "mitgliedin", "istteilvon"],
                 "_e": ["trainer", "team"],
                 "card": ["N", "1"]
             }
