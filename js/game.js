@@ -628,7 +628,6 @@ story = [
 ]
 
 current_exercise = -1;
-
 function check_exercise(continue_button = false) {
     if(current_exercise >= story.length-1) {
         fireworks.start.apply(fireworks);
@@ -636,7 +635,7 @@ function check_exercise(continue_button = false) {
         $('#continue_button').hide();
         $('#certificate_form').show();
     }
-    var matching_entities = [];
+    matching_entities = [];
     for(var e = 0; e <= current_exercise; e++) {
         var ex = story[e];
         if (ex._e != undefined) {
@@ -649,15 +648,15 @@ function check_exercise(continue_button = false) {
                         break;
                     }
                 }
-                if (matching_ent == null) { // entity type is missing
-                    return;
+                if (matching_ent == null) {
+                    return "entity type is missing";
                 }
                 matching_entities[ent.name[0]] = matching_ent;
 
                 if(ent.isa != undefined) {  // should the entity type be a subtype of another?
-                    if(matching_ent.isa == undefined) { return; } // no supertype specified
-                    if(matching_entities[ent.isa] == undefined) { return; } // subtype does not exist
-                    if(matching_ent.isa.cid != matching_entities[ent.isa].cell.cid) { return; } // wrong supertype
+                    if(matching_ent.isa == undefined) { return "no supertype specified"; }
+                    if(matching_entities[ent.isa] == undefined) { return "subtype does not exist"; }
+                    if(matching_ent.isa.cid != matching_entities[ent.isa].cell.cid) { return "wrong supertype"; }
                 }
 
                 if (ent._a != undefined) {  // are all required attributes present?
@@ -665,7 +664,7 @@ function check_exercise(continue_button = false) {
                         var att = ent._a[a];
                         var matching_att = null;
                         if (matching_ent._a == undefined) {
-                            return; // entity type has no attributes at all
+                            return "entity type has no attributes at all";
                         }
                         for (var j in matching_ent._a) {
                             if (att.name.includes(norm(matching_ent._a[j].name))) {
@@ -673,13 +672,13 @@ function check_exercise(continue_button = false) {
                                 break;
                             }
                         }
-                        if (matching_att == null) { // attribute is missing
-                            return;
+                        if (matching_att == null) {
+                            return "attribute is missing";
                         }
                         if(att.options != undefined) {  // should the attribute have any options (primary, multi)?
                             if(matching_att.options == undefined) { return; }
                             for(var o in att.options) {
-                                if(!matching_att.options.includes(att.options[o])) { return; }
+                                if(!matching_att.options.includes(att.options[o])) { return "wrong attribute options"; }
                             }
                         }
                         if(att._a != undefined) {   // should the attribute have any sub-attributes?
@@ -692,7 +691,7 @@ function check_exercise(continue_button = false) {
                                         break;
                                     }
                                 }
-                                if(!found) { return; } // sub-attribute is missing
+                                if(!found) { return "sub-attribute is missing"; }
                             }
                         }
                     }
@@ -702,35 +701,40 @@ function check_exercise(continue_button = false) {
         if (ex._r != undefined) {
             for(var i in ex._r) {   // are all required relationships present?
                 var rel = ex._r[i];
-                var matching_rel = null;
+                var matching_rels = [];
                 for (var j in _r) {
                     if (rel.name.includes(norm(_r[j].name))) {
-                        matching_rel = _r[j];
-                        break;
+                        matching_rels.push(_r[j]);
                     }
                 }
-                if (matching_rel == null) { // relationship is missing
-                    return;
+                if (matching_rels.length == 0) {
+                    return "relationship is missing";
                 }
                 var already_covered = [];
                 for(var j in rel._e) {  // does the relationship connect the correct entity types?
                     var matching_ent = matching_entities[rel._e[j]];
-                    if(matching_ent == undefined) { return; } // one of the relationship's entity types is not there
+                    if(matching_ent == undefined) { return "one of the relationship's entity types is not there"; }
                     var found = false;
-                    for(var k in matching_rel._e) {
-                        var cid = matching_rel._e[k].cid;
-                        if(cid == matching_ent.cell.cid && !already_covered.includes(k)) {
-                            if(rel.card != undefined) {
-                                if(rel.card[j] == "1" && matching_rel._e[k].card != "1"
-                                || rel.card[j] != "1" && matching_rel._e[k].card == "1") { continue; }  // wrong cardinality
+                    for(var m in matching_rels) {
+                        var matching_rel = matching_rels[m];
+                        for (var k in matching_rel._e) {
+                            var cid = matching_rel._e[k].cid;
+                            if (cid == matching_ent.cell.cid && !already_covered.includes(k)) {
+                                if (rel.card != undefined) {
+                                    if (rel.card[j] == "1" && matching_rel._e[k].card != "1"
+                                        || rel.card[j] != "1" && matching_rel._e[k].card == "1") {
+                                        continue;
+                                    }  // wrong cardinality
+                                }
+                                found = true;
+                                already_covered.push(k);
+                                break;
                             }
-                            found = true;
-                            already_covered.push(k);
-                            break;
+
                         }
                     }
-                    if(!found) { // relationship is connecting wrong entity types (or cardinalities do not match)
-                        return;
+                    if(!found) {
+                        return "relationship is connecting wrong entity types (or cardinalities do not match)";
                     }
                 }
                 if(rel._a != undefined) {
@@ -739,7 +743,7 @@ function check_exercise(continue_button = false) {
                         var att = rel._a[a];
                         var matching_att = null;
                         if (matching_rel._a == undefined) {
-                            return; // relationship has no attributes at all
+                            return "relationship has no attributes at all";
                         }
                         for (var j in matching_rel._a) {
                             if (att.name.includes(norm(matching_rel._a[j].name))) {
@@ -747,8 +751,8 @@ function check_exercise(continue_button = false) {
                                 break;
                             }
                         }
-                        if (matching_att == null) { // attribute is missing
-                            return;
+                        if (matching_att == null) {
+                            return "attribute is missing";
                         }
                     }
                 }
