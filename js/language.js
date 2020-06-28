@@ -26,6 +26,7 @@ lang_de = {
     "%game_info": "Das Spiel wurde an der OTH Regensburg von Prof. Dr. Johannes Schildgen entwickelt. Ein großer Dank geht an Isabell Ruth, die die Grafiken erstellt hat!",
     "Next": "Weiter",
     "Previous": "Zurück",
+    "Your Name:": "Dein Name:",
     "This is you!": "Das bist du!",
     "%joyride_info_player": "Deine Aufgabe ist es, ein Entity-Relationship-Diagramm für den Freizeit-Park \"MonstER Park\" zu erstellen.",
     "%joyride_info_control": "Über diese Buttons erstellst du neue Entitätstypen, Beziehungen und auch Attribute. Später findest du in dieser Leiste noch weitere Steuerelemente.",
