@@ -362,7 +362,7 @@ story = [
     {
         "de": "Willkommen im MonstER-Park! Hier soll einmal der größte Monster-Freizeitpark der Welt entstehen. Leider läuft es mit der Planung gerade gar nicht gut. Kannst du mir vielleicht etwas helfen, damit der Park pünktlich eröffnen kann? Ich werde nämlich dauernd von diesen kleinen Monstern abgelenkt. Oh, da ist ja schon wieder eins!",
         "left": "avatar.png", "right": "arthur_frei.png",
-    }, /*
+    },g
     {
         "de": "Hallo! Ich bin Monster Nummer 1, ich heiße Bolbo!",
         "left": "avatar_ueberrascht.png", "right": "bolbo.png",
@@ -620,7 +620,7 @@ story = [
     {
         "de": "Trina, Fibi, hier seid ihr ja! Kommt schnell, sonst verpasst ihr die Eröffnung des Monster Parks! Alles ist startbereit, das ER-Diagramm ist fertig!",
         "left": "avatar_ueberrascht.png", "right": "bolbo.png",
-    },*/
+    },
     {
         "de": "Danke, dass du das ER-Diagramm erstellt hast und der Monster Park rechtzeitig eröffnen kann! ",
         "left": "avatar_freuend.png", "right": "arthur_frei.png",
