@@ -622,7 +622,7 @@ story = [
         "left": "avatar_ueberrascht.png", "right": "bolbo.png",
     },
     {
-        "de": "Danke, dass du das ER-Diagramm erstellt hast und der Monster Park rechtzeitig eröffnen kann!",
+        "de": "Danke, dass du das ER-Diagramm erstellt hast und der Monster Park rechtzeitig eröffnen kann! ",
         "left": "avatar_freuend.png", "right": "arthur_frei.png",
     }
 ]
@@ -634,7 +634,7 @@ function check_exercise(continue_button = false) {
         fireworks.start.apply(fireworks);
         _paq.push(['trackEvent', 'Game', 'Completed', '']);
         $('#continue_button').hide();
-        return;
+        $('#certificate_form').show();
     }
     var matching_entities = [];
     for(var e = 0; e <= current_exercise; e++) {
@@ -825,8 +825,9 @@ function do_unhighlight() {
     }
 }
 
-function screenshot() {
+$('#certificate_button').click(function() {
     do_unhighlight();
+    var old_background = $('#erd').css('background-color');
     $('#erd').css('background-color', 'white');
     graph.getLinks().forEach(function(link) {
         link.attr({
@@ -849,7 +850,18 @@ function screenshot() {
     });
 
     ele = document.querySelector('#erd').parentNode.parentNode;
+
     html2canvas(ele, {}).then( canvas => {
-        document.write('<img src="'+canvas.toDataURL("image/png")+'"/>');
-    })
-}
+        //document.write('<img src="'+canvas.toDataURL("image/png")+'"/>');
+        $('#erd').css('background-color', old_background);
+        var image = canvas.toDataURL("image/png");
+        $.post("cert.php",
+            {
+                playername: $('#certificate_input_name').val(),
+                image: image
+            },
+            function(data, status){
+                $('#certificate_open')[0].submit();
+            });
+    });
+});

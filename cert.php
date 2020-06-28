@@ -1,57 +1,61 @@
 <?php
-// sudo apt install php-imagick
+// sudo apt install php-imagick php-sqlite3
+// cp db/certs.sqlite3.empty db/certs.sqlite3
+// chmod 777 db/certs.sqlite3
+// ---
+// create table certs(cert_id char(10) primary key, name varchar(50), game_time timestamp default current_timestamp, erd_image text);
 
-/*session_start();
+session_start();
 
-require_once("./DB.class.php");
-require_once("Lang.class.php");
-
-$cert_db = new PDO('sqlite:../db/certs.sqlite3');
+$cert_db = new PDO('sqlite:./db/certs.sqlite3');
 if(isset($_GET['id'])) {
-   $stmt = $cert_db->prepare("SELECT name FROM certs WHERE cert_id = :c");
-   $stmt->execute(array(":c" => $_GET['id']));
-   $allResults = $stmt->fetchAll();
-   if(count($allResults)<1) { die('invalid id'); }
-   $playername = $allResults[0]["name"];
+   // show certificate
    $cert_id = $_GET['id'];
+} elseif(isset($_POST['playername']) && isset($_POST['image'])) {
+    // store certificate
+    $cert_id = substr(md5(uniqid("monster")),-10);
+    $stmt = $cert_db->prepare('INSERT INTO certs(cert_id, name, erd_image) VALUES(:c, :n, :i)');
+    $stmt->bindValue(':c', $cert_id);
+    $stmt->bindValue(':n', $_POST['playername']);
+    $stmt->bindValue(':i', base64_decode(str_replace('data:image/png;base64,','', $_POST['image'])), PDO::PARAM_LOB);
+    //$stmt->bindValue(':i', $_POST['image']);
+    //$stmt->execute(array(":c" => $cert_id, ":n" => $_POST['playername'], ":i" => base64_decode($_POST['image'])));
+    $stmt->execute();
+    echo $cert_id;
+    $_SESSION['id'] = $cert_id;
+    die();
+} elseif(isset($_SESSION['id'])) {
+    $cert_id = $_SESSION['id'];
 } else {
-   if(isset($_SESSION['dbID'])) {
-        $db = new DB($_SESSION['dbID']);
-   } else {
-	die("invalid session");
-   }
-   if(@$_SESSION['extreme'] === true) { require_once("./ExtremeGame.class.php"); } else { require_once("./Game.class.php"); }
-   if(isset($_SESSION['currentExercise'])) {
-        $game = new Game($_SESSION['currentExercise']);
-   } else {
-	die("invalid game");
-   }
-   if($game->getExercise() != null) {
-   	die("game not yet finished");
-   }
+    http_response_code(400);
+    die('invalid request');
+}
 
-   $playername = $db->getPlayerName();
-   $cert_id = substr(md5($_SESSION['dbID']),-10);
 
-   $stmt = $cert_db->prepare("INSERT OR REPLACE INTO certs(cert_id, game_id, name) VALUES (:c, :g, :n)");
-   $stmt->execute(array(":c" => $cert_id, ":g" => $_SESSION['dbID'], ":n" => $playername));
-}*/
+$stmt = $cert_db->prepare("SELECT name, erd_image FROM certs WHERE cert_id = :c");
+$stmt->execute(array(":c" => $cert_id));
+$stmt->bindColumn(1, $playername);
+$stmt->bindColumn(2, $image, PDO::PARAM_LOB);
+$stmt->fetch(PDO::FETCH_BOUND);
+if($image == null) { http_response_code(400); die("invalid certificate id"); }
 
-$playername = "Peter";
-$cert_id = "ihewfiuehtiu2t";
+if(isset($_GET['check'])) { die("valid"); }
 
 $html = <<<HTML
 <html>
 <body style="font-family:Helvetica">
 
 <h1 style="color:white; text-align:center; font-size:40pt">MonstER Park</h1>
-<h1 style="font-size:5pt">&nbsp;</h1>
-<h1 style="text-align:center; font-size:32pt">Certificate of Completion</h1>
-<h1 style="text-align:center; font-size:22pt">This is to certify that</h1>
-<h1 style="text-align:center; font-size:32pt">$playername</h1>
-<h1 style="text-align:center; font-size:22pt">has successfully completed the<br>learning game MonstER Park.</h1>
-<h1 style="font-size:15.2pt;"><br>&nbsp;<br>&nbsp;<br>&nbsp;<br>&nbsp;<br>&nbsp;<br>&nbsp;<br>&nbsp;<br>&nbsp;<br>&nbsp;<br>&nbsp;<br>&nbsp;<br>&nbsp;<br>&nbsp;<br>&nbsp;<br>&nbsp;<br>&nbsp;<br></h1>
-<h1 style="text-align:center; font-size:16pt;">$cert_id</h1>
+<h1 style="text-align:center; font-size:8pt">&nbsp;<br>
+<span style="text-align:center; font-size:32pt">Certificate of Completion</span>
+<span style="text-align:center; font-size:8pt"><br>&nbsp;<br></span>
+<span style="text-align:center; font-size:22pt">This is to certify that</span>
+<span style="text-align:center; font-size:8pt"><br>&nbsp;<br></span>
+<span style="text-align:center; font-size:32pt">$playername</span>
+<span style="text-align:center; font-size:8pt"><br>&nbsp;<br></span>
+<span style="text-align:center; font-size:22pt">has successfully completed the<br>learning game MonstER Park.</span>
+<h1 style="font-size:19.5pt;"><br>&nbsp;<br>&nbsp;<br>&nbsp;<br>&nbsp;<br>&nbsp;<br>&nbsp;<br>&nbsp;<br>&nbsp;<br>&nbsp;<br>&nbsp;<br>&nbsp;<br>&nbsp;<br>&nbsp;<br>&nbsp;<br>&nbsp;<br>&nbsp;<br></h1>
+<h1 style="text-align:center; font-size:16pt;">ID: $cert_id</h1>
 <h1 style="text-align:center; font-size:16pt;">URL: https://www.monst-er.de/cert.php?id=$cert_id</h1>
 <h1 style="text-align:right; font-size:10pt">monst-er.de</h1>
 
@@ -70,7 +74,7 @@ $pdf = new TCPDF('P', PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
 
 // Dokumenteninformationen
 $pdf->SetCreator(PDF_CREATOR);
-$pdf->SetAuthor("sql-island.de");
+$pdf->SetAuthor("monst-er.de");
 $pdf->SetTitle('Certificate');
 $pdf->SetSubject('Certificate');
 
@@ -109,6 +113,7 @@ $pdf->AddPage();
 
 // Image($file, $x='', $y='', $w=0, $h=0, $type='', $link='', $align='', $resize=false, $dpi=300, $palign='', $ismask=false, $imgmask=false, $border=0, $fitbox=false, $hidden=false, $fitonpage=false)
 
+$pdf->Image("@".$image, 40, 117, 980/6, 782/6, '', '', '', false, 300, '', false, false, 0);
 $pdf->Image("images/certificate_ribbon.png", 17, 20, 714/4, 122/4, '', '', '', false, 300, '', false, false, 0);
 $pdf->Image("images/trina.png", 150, 7, 140/5, 288/5, '', '', '', false, 300, '', false, false, 0);
 $pdf->StartTransform();
@@ -116,6 +121,7 @@ $pdf->MirrorH(50);
 $pdf->Image("images/fibi.png", 40, 228, 140/6, 288/6, '', '', '', false, 300, '', false, false, 0);
 $pdf->StopTransform();
 $pdf->Image("images/bolbo.png", 150, 218, 140/5, 288/5, '', '', '', false, 300, '', false, false, 0);
+
 $pdf->writeHTML($html, true, false, true, false, '');
 
 $pdf->deletePage(2);
