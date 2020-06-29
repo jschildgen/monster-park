@@ -371,7 +371,7 @@ story = [
     },
     {
         "de": "Hi Bolbo! Das heißt also, jedes Monster hat eine Monsternr und einen Namen. Ich erstelle dann also einen Entitätstypen \"Monster\" mit den beiden Attributen \"Monsternr\" und \"Name\".",
-        "en": "Hi Bolbo! This means, every monster has a monster number and a name. So I create an entity type \"Monster\" with the two attributes \"Monsternumber\" and \"Name\".",
+        "en": "Hi Bolbo! This means, every monster has a monster number and a name. So I create an entity type \"Monster\" with the two attributes \"Monster-ID\" and \"Name\".",
         "left": "avatar_winkend.png", "right": "bolbo.png", "me": true,
         "_e": [{
             "name": ["monster", "monsters"],
