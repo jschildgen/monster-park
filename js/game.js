@@ -668,7 +668,7 @@ story = [
 current_exercise = -1;
 function check_exercise(continue_button = false) {
     if(current_exercise >= story.length-1) {
-        fireworks.start.apply(fireworks);
+        //fireworks.start.apply(fireworks);
         _paq.push(['trackEvent', 'Game', 'Completed', '']);
         $('#continue_button').hide();
         $('#certificate_form').show();
