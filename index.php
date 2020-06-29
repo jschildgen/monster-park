@@ -89,12 +89,12 @@ session_destroy();
                 <div class="offset-by-one animated bounceIn" id="bubble">
                     <div class="text-box clearfix" style="width:250px">
                         <h3 id="exercise_text"></h3>
-                        <a id="continue_button" class="large red button radius right">Weiter</a>
+                        <a id="continue_button" class="large red button radius right lang">Continue</a>
                         <div id="certificate_form" style="display: none">
                             <label for="certificate_input_name" class="lang" style="color:white">Your Name:</label><br>
                             <input type="text" id="certificate_input_name" style="width:95%"><br>
                             <form action="cert.php" method="get" target="_blank" id="certificate_open"></form>
-                            <a id="certificate_button" class="large green button radius right">Zertifikat</a>
+                            <a id="certificate_button" class="large green button radius right lang">Certificate</a>
                         </div>
                         <span class="text-box-pointer clearfix" style="left:190px;"></span> <!-- left: 20 -->
                         <span class="text-box-pointer-shadow" style="left:183px;"></span> <!-- left: 13 -->
@@ -124,7 +124,7 @@ session_destroy();
                 <label class="ctrl_attribute lang" for="ctrl_input_name" style="display: none">Attribute Name:</label>
                 <label class="ctrl_entitytype lang" for="ctrl_input_name" style="display: none">Entity-type Name:</label>
                 <label class="ctrl_relationship lang" for="ctrl_input_name" style="display: none">Relationship Name:</label>
-                <br><input id="ctrl_input_name" type="text" style="width: 120px; height:13px" maxlength="15"></label>
+                <br><input id="ctrl_input_name" type="text" style="width: 120px; height:13px" maxlength="17"></label>
             </div>
 
             <div class="ctrl_entitytype" style="visibility: hidden; margin-top: 0px; position: absolute; right: 707px; text-align: left;">

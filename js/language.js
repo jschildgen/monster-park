@@ -26,6 +26,8 @@ lang_de = {
     "%game_info": "Das Spiel wurde an der OTH Regensburg von Prof. Dr. Johannes Schildgen entwickelt. Ein großer Dank geht an Isabell Ruth, die die Grafiken erstellt hat!",
     "Next": "Weiter",
     "Previous": "Zurück",
+    "Continue": "Weiter",
+    "Certificate": "Zertifikat",
     "Your Name:": "Dein Name:",
     "This is you!": "Das bist du!",
     "%joyride_info_player": "Deine Aufgabe ist es, ein Entity-Relationship-Diagramm für den Freizeit-Park \"MonstER Park\" zu erstellen.",
@@ -45,12 +47,16 @@ lang_en = {
     "%joyride_info_go": "Now it's your turn! Simply try out all features. When you've solved an exercise, the game will automatically continue. But when you see a red Continue button, you have to press that button first. Have fun with MonstER Park!"
 }
 
+language_code = "";
+
 change_language(window.navigator.language.slice(0, 2));
 
-function change_language(language_code) {
-    if(language_code == "de") {
+function change_language(new_language_code) {
+    if(new_language_code == "de") {
+        language_code = "de";
         lang = lang_de;
     } else {
+        language_code = "en";
         lang = lang_en;
     }
 
@@ -62,12 +68,15 @@ function change_language(language_code) {
         $(this).prop("data-lang", this.innerHTML);
         this.innerHTML = translate(this.innerHTML);
     });
+    if(story != undefined && story[current_exercise] != undefined && story[current_exercise][language_code] != undefined) {
+        $('#exercise_text').text(story[current_exercise][language_code]);
+    }
 }
 
 
 function translate(txt) {
     if(lang[txt] == undefined) {
-        if(window.navigator.language.slice(0, 2) != "en" || txt.slice(0,1) == "%") {
+        if(language_code != "en" || txt.slice(0,1) == "%") {
             console.log('"' + txt + '": "", ');
         }
         return txt;

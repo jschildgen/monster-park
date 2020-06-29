@@ -361,84 +361,95 @@ tomorrow = tomorrow.toLocaleDateString();
 story = [
     {
         "de": "Willkommen im MonstER-Park! Hier soll einmal der größte Monster-Freizeitpark der Welt entstehen. Leider läuft es mit der Planung gerade gar nicht gut. Kannst du mir vielleicht etwas helfen, damit der Park pünktlich eröffnen kann? Ich werde nämlich dauernd von diesen kleinen Monstern abgelenkt. Oh, da ist ja schon wieder eins!",
+        "en": "Welcome to MonstER Park! Soon, here will be the the largest monster theme park in the world. Unfortunately, the planning is not going well at the moment. Could you please help me so that the park can open on time? Because I keep getting distracted by these little monsters. Oh, there's again one monster!",
         "left": "avatar.png", "right": "arthur_frei.png",
-    },g
+    },
     {
         "de": "Hallo! Ich bin Monster Nummer 1, ich heiße Bolbo!",
+        "en": "Hello! I'm Monster Number 1, my name is Bolbo!",
         "left": "avatar_ueberrascht.png", "right": "bolbo.png",
     },
     {
         "de": "Hi Bolbo! Das heißt also, jedes Monster hat eine Monsternr und einen Namen. Ich erstelle dann also einen Entitätstypen \"Monster\" mit den beiden Attributen \"Monsternr\" und \"Name\".",
+        "en": "Hi Bolbo! This means, every monster has a monster number and a name. So I create an entity type \"Monster\" with the two attributes \"Monsternumber\" and \"Name\".",
         "left": "avatar_winkend.png", "right": "bolbo.png", "me": true,
         "_e": [{
             "name": ["monster", "monsters"],
             "_a": [
-                {"name":["monsternr","monsternummer","monsterid"]},
+                {"name":["monsternr","monsternummer","monsterid", "monsterno", "monsternumber"]},
                 {"name":["name","monstername"]}
             ]
         }],
     },
     {
         "de": "Super gemacht! Ich freue mich schon, wenn der MonstER-Park eröffnet wird und uns die ersten Trainer besuchen kommen.",
+        "en": "Good job! I am looking forward to the MonstER-Park opening and the first trainers coming to visit us.",
         "left": "avatar_freuend.png", "right": "bolbo.png",
     },
     {
-        "de": "Notiere bitte, dass es Trainer geben kann und dass jeder Trainer eine Trainer-ID, einen Spitznamen und ein Geschlecht hat.",
+        "de": "Male bitte auf, dass es Trainer geben kann und dass jeder Trainer eine Trainer-ID, einen Spitznamen und ein Geschlecht hat.",
+        "en": "Please note that there can be trainers and that each trainer has a trainer ID, nickname and gender.",
         "left": "avatar.png", "right": "bolbo.png",
         "_e": [{
-            "name": ["trainer", "trainers", "trainerin"],
+            "name": ["trainer", "trainers", "trainerin", "coach"],
             "_a": [
-                {"name":["trainernr","trainernummer","trainerid"]},
-                {"name":["spitzname", "name","trainername"]},
-                {"name":["geschlecht"]}
+                {"name":["trainernr","trainernummer","trainerid", "trainerno", "trainernumber"]},
+                {"name":["spitzname", "name","trainername", "nickname"]},
+                {"name":["geschlecht", "gender", "sex"]}
             ]
         }],
     },
     {
         "de": "Hab ich schon gesagt, dass ich Monster Nummer 1 bin? Diese Nummer habe nur ich! Es gibt zwar noch weitere Bolbos im Monster Park, aber keiner außer mir hat die Nummer 1.",
+        "en": "Did I mention I'm monster Number 1? I'm the only one with that number! There are other Bolbos in Monster Park, but nobody has number 1 but me.",
         "left": "avatar.png", "right": "bolbo.png",
     },
     {
         "de": "Okay, das heißt, ich muss die Monsternummer unterstreichen und sie damit zum Primärschlüssel machen, weil sie ein Monster eindeutig identifiziert.",
+        "en": "Okay, that means I have to underline the monster number to specify that this is the primary key. It uniquely identifies a monster.",
         "left": "avatar.png", "right": "bolbo.png", "me": true,
         "_e": [{
             "name": ["monster", "monsters"],
             "_a": [
-                {"name":["monsternr","monsternummer","monsterid"], "options": ["primary"]},
+                {"name":["monsternr","monsternummer","monsterid", "monsterno", "monsternumber"], "options": ["primary"]},
             ]
         }],
     },
     {
         "de": "Wie ist das eigentlich bei Trainern? Was ist da der Primärschlüssel?",
+        "en": "How should we do it with the trainers? What's the primary key there?",
         "left": "avatar.png", "right": "bolbo.png",
         "_e": [{
             "name": ["trainer", "trainers", "trainerin"],
             "_a": [
-                {"name":["trainernr","trainernummer","trainerid"], "options": ["primary"]},
+                {"name":["trainernr","trainernummer","trainerid", "trainerno", "trainernumber"], "options": ["primary"]},
             ]
         }],
     },
     {
         "de": "Ich hoffe ich finde bald einen Trainer, der sich um mich kümmert!",
+        "en": "I hope I find a trainer soon who will take care of me!",
         "left": "avatar.png", "right": "bolbo.png",
     },
     {
         "de": "Ach so, ein Monster gehört also einem Trainer. Dann erstelle ich mal eine Beziehung.",
+        "en": "Oh, so a monster belongs to a trainer. I'm going to create a relationship.",
         "left": "avatar_freuend.png", "right": "bolbo.png",
         "me": true,
         "_r": [
             {
-                "name": ["gehoert", "gehoertzu", "besitzt", "hat", "kuemmertsichum", "trainiert"],
+                "name": ["gehoert", "gehoertzu", "besitzt", "hat", "kuemmertsichum", "trainiert", "belongto", "belongsto", "owns", "own", "has", "have", "takecareof", "takescareof", "train", "trains"],
                 "_e": ["monster", "trainer"],
             }
         ]
     },
     {
         "de": "Aber Achtung: Jedes Monster gehört immer nur einem Trainer. Aber ein Trainer kann viele Monster haben!",
+        "en": "But be careful: Each monster belongs to only one trainer at a time. But a trainer can have many monsters!",
         "left": "avatar_ueberrascht.png", "right": "bolbo.png",
         "_r": [
             {
-                "name": ["gehoert", "gehoertzu", "besitzt", "hat"],
+                "name": ["gehoert", "gehoertzu", "besitzt", "hat", "kuemmertsichum", "trainiert", "belongto", "belongsto", "owns", "own", "has", "have", "takecareof", "takescareof", "train", "trains"],
                 "_e": ["monster", "trainer"],
                 "card": ["N", "1"]
             }
@@ -446,19 +457,21 @@ story = [
     },
     {
         "de": "Wusstest du, dass es auch Teams gibt? Ein Team hat einen Teamnamen und eine Farbe.",
+        "en": "Did you know that we have teams in MonstER park? A team has a team name and a color.",
         "left": "avatar.png", "right": "bolbo.png",
         "_e": [
             {
                 "name": ["team", "teams"],
                 "_a": [
                     {"name": ["teamname", "name" ]},
-                    {"name": ["farbe", "teamfarbe"]}
+                    {"name": ["farbe", "teamfarbe", "color", "teamcolor", "colour", "teamcolour"]}
                 ]
             }
         ]
     },
     {
         "de": "Da ein Team keine Nummer hat, mach einfach den Teamnamen zum Primärschlüssel. Er ist eindeutig.",
+        "en": "Since a team has no number, just specify the team name as the primary key. It's unique.",
         "left": "avatar_freuend.png", "right": "bolbo.png",
         "_e": [
             {
@@ -471,10 +484,11 @@ story = [
     },
     {
         "de": "Und jetzt male bitte auf, dass ein Trainer in einem Team sein kann. In einem Team können aber natürlich mehrere Trainer sein!",
+        "en": "And now please write down that a trainer can be in a team. But of course, there can be multiple trainers in one team!",
         "left": "avatar_freuend.png", "right": "bolbo.png",
         "_r": [
             {
-                "name": ["in", "istin", "sindin", "gehoertzu", "gehoertan", "bestehtaus", "istmitgliedvon", "istmitgliedin", "istmitglied", "mitglied", "mitgliedvon", "mitgliedin", "istteilvon"],
+                "name": ["in", "istin", "sindin", "gehoertzu", "gehoertan", "bestehtaus", "istmitgliedvon", "istmitgliedin", "istmitglied", "mitglied", "mitgliedvon", "mitgliedin", "istteilvon", "on", "ison", "isin", "arein", "areon", "consistof", "consistsof", "memberof", "partof", "arememberof", "arepartof", "within"],
                 "_e": ["trainer", "team"],
                 "card": ["N", "1"]
             }
@@ -482,147 +496,171 @@ story = [
     },
     {
         "de": "Ich habe noch was vergessen: Nicht nur Teams haben eine Farbe, sondern auch Monster! Wie du siehst bin ich Gelb-Schwarz!",
+        "en": "I forgot something to say: Not only teams have a color, but also monsters! As you can see, I am yellow and black!",
         "left": "avatar.png", "right": "bolbo.png",
     },
     {
         "de": "Oha, das heißt Monster haben mehrere Farben. \"Farbe\" muss also ein mehrwertiges Attribut sein.",
+        "en": "Oh, that means monsters have multiple colors. So \"color\" must be a multi-valued attribute.",
         "left": "avatar.png", "right": "bolbo.png", "me": true,
         "_e": [{
             "name": ["monster", "monsters"],
             "_a": [
-                {"name":["farbe","monsterfarbe","farben"], "options": ["multi"]},
+                {"name":["farbe","monsterfarbe","farben", "color", "monstercolor", "colour", "monstercolour", "colors", "colours"], "options": ["multi"]},
             ]
         }],
     },
     {
         "de": "Juhu, jetzt weiß jeder, dass ich Gelb-Schwarz bin! Ich verrate dir noch was: Ich heiße gar nicht einfach nur Bolbo. Ich heiße Bolbo Brillenfrosch!",
+        "en": "Yay, now everybody knows I'm yellow-black! I'll tell you something: My name is not just Bolbo. It's Bolbo Frogman.",
         "left": "avatar_freuend.png", "right": "bolbo.png",
     },
     {
         "de": "Potzblitz, dann besteht der Name eines Monsters also aus den Sub-Attributen Vorname und Nachname!",
+        "en": "Wow, then the name of a monster consists of the sub-attributes first name and last name!",
         "left": "avatar.png", "right": "bolbo.png", "me": true,
         "_e": [{
             "name": ["monster", "monsters"],
             "_a": [
                 {"name":["name","monstername"], "_a": [
-                        {"name": ["vorname"]}, {"name": ["nachname"]}
+                        {"name": ["vorname", "rufname", "firstname", "forename", "prename", "givenname"]},
+                        {"name": ["nachname","familienname", "lastname", "surname", "familyname"]}
                     ]}
             ]
         }],
     },
     {
         "de": "Huhu, ich bin Trina! Ich bin die Tochter von Bolbo!",
+        "en": "Yoo-hoo, I'm Trina! I'm Bolbo's daughter!",
         "left": "avatar.png", "right": "trina.png",
     },
     {
         "de": "Hi Trina! Das heißt ja dann, wir brauchen eine Beziehung, damit Monster Kinder von anderen Monstern sein können.",
+        "en": "Hi Trina! That means we need a relationship so that monsters can be children of other monsters.",
         "left": "avatar_winkend.png", "right": "trina.png", "me": true,
         "_r": [
             {
-                "name": ["istkindvon", "istkind", "kindvon", "kind", "eltern", "elternteil", "hatkind", "hatkinder"],
+                "name": ["istkindvon", "istkind", "sindkindvon", "sindkind", "kindvon", "kind", "eltern", "sindeltern", "elternteil", "sindelternteil", "hatkind", "hatkinder", "habenkinder", "ischild", "ischildof", "arechild", "arechildof", "havechildren", "havechild", "haschildren", "haschild", "child", "children", "parent", "parents", "kids", "kid"],
                 "_e": ["monster", "monster"],
             }
         ]
     },
     {
         "de": "Ja genau! Ein Monster hat mehrere Elternteile und Eltern können natürlich auch viele Kinder haben.",
+        "en": "Yeah, right! A monster has multiple parents and parents can have many children.",
         "left": "avatar.png", "right": "trina.png",
         "_r": [
             {
-                "name": ["istkindvon", "kindvon", "kind", "eltern", "elternteil", "hatkind", "hatkinder"],
+                "name": ["istkindvon", "istkind", "sindkindvon", "sindkind", "kindvon", "kind", "eltern", "sindeltern", "elternteil", "sindelternteil", "hatkind", "hatkinder", "habenkinder", "ischild", "ischildof", "arechild", "arechildof", "havechildren", "havechild", "haschildren", "haschild", "child", "children", "parent", "parents", "kids", "kid"],
                 "_e": ["monster", "monster"],
-                "card": ["N", "M"]
+                "card": ["N", "N"]
             }
         ]
     },
     {
         "de": "Wie du siehst, bin ich kein normales Monster. Ich bin ein Flugmonster! Ich habe vier Flügel!",
+        "en": "As you can see, I'm not an ordinary monster. I'm a flying monster! I have four wings!",
         "left": "avatar_ueberrascht.png", "right": "trina.png",
     },
     {
         "de": "Das heißt es muss einen Unter-Entitätstypen \"Flugmonster\" geben. Ein Flugmonster ist ein Monster.",
+        "en": "That means there must be a sub-entity-type \"flying monster\". A flying monster is a monster.",
         "left": "avatar.png", "right": "trina.png", "me": true,
         "_e": [{
-            "name": ["flugmonster", "flugmonsters"],
+            "name": ["flugmonster", "flugmonsters", "flyingmonster", "flightmonster", "flymonster"],
             "isa": "monster"
         }],
     },
     {
         "de": "Hey, hast du Trina gesehen? Ich habe ihr tolle Neuigkeiten zu erzählen! Und zwar ist meine Temperatur von 800°C auf 900°C gestiegen!",
+        "en": "Hey, have you seen Trina? I have some great news to tell her! My temperature went from 800° to 900°!",
         "left": "avatar.png", "right": "fibi.png",
     },
     {
         "de": "Hi du! Trina kommt bestimmt gleich wieder. Ich vermerke noch kurz, dass es den Subtyp Feuermonster gibt und dass diese eine Temperatur haben.",
+        "en": "Hi there! Trina will be right back. I will briefly note that there is a subtype \"fire monster\" and that they have a temperature.",
         "left": "avatar_winkend.png", "right": "fibi.png", "me": true,
         "_e": [{
-            "name": ["feuermonster", "feuermonsters"],
+            "name": ["feuermonster", "feuermonsters", "firemonster", "firemonsters"],
             "_a": [
-                {"name":["temperatur","grad","hitze"] }
+                {"name":["temperatur","grad","hitze", "temperature", "degree", "heat"] }
             ],
             "isa": "monster"
         }],
     },
     {
         "de": "Wie ich sehe, hast du schon meinen Kumpel Fibi kennengelernt. Ich musste gerade kurz verschwinden, weil ich mich für einen Wettbewerb angemeldet habe.",
+        "en": "I see you've already met my buddy Fibi. I just had to step away for a second because I signed up for a competition.",
         "left": "avatar.png", "right": "trina.png",
     },
     {
         "de": "Hier finden nämlich ganz oft Wettbewerbe statt! Jeder Wettbewerb hat ein Datum und eine Bezeichnung.",
+        "en": "Many competitions take place in MonstER park! Each competition has a date and a name.",
         "left": "avatar.png", "right": "trina.png",
         "_e": [{
             "name": ["competition", "contest", "challenge",
                 "wettbewerb", "turnier", "wettbewerbe", "turniere"],
             "_a": [
-                {"name": ["bezeichnung", "name"]},
-                {"name": ["datum","tag","wann"]}
+                {"name": ["bezeichnung", "name", "description", "title"]},
+                {"name": ["datum","tag","wann", "date", "time", "timestamp", "when"]}
             ]
         }]
     },
     {
         "de": "Der Wettbewerb, für den ich mich angemeldet habe, heißt Waldturnier. Er ist morgen, am "+tomorrow+". Heute war auch ein Waldturnier, da habe ich aber nicht teilgenommen.",
+        "en": "The competition I have registered for is called the Forest Tournament. It's tomorrow, at "+tomorrow+". There was also a Forest Tournament today, but I didn't participate.",
         "left": "avatar.png", "right": "trina.png",
     },
     {
         "de": "Okay, das bedeutet, die Kombination aus Bezeichnung und Datum identifiziert einen Wettbewerb eindeutig.",
+        "en": "Okay, that means the combination of name and date uniquely identifies a competition.",
         "left": "avatar.png", "right": "trina.png", "me": true,
         "_e": [{
             "name": ["competition", "contest", "challenge",
                 "wettbewerb", "turnier"],
             "_a": [
-                {"name": ["bezeichnung", "name"], "options":["primary"]},
-                {"name": ["datum","tag","wann"], "options":["primary"]}
+                {"name": ["bezeichnung", "name", "description", "title"], "options":["primary"]},
+                {"name": ["datum","tag","wann", "date", "time", "timestamp", "when"], "options":["primary"]}
             ]
         }]
     },
     {
         "de": "Ich will auch am Waldturnier teilnehmen!",
+        "en": "I also want to participate in the forest tournament!",
         "left": "avatar_ueberrascht.png", "right": "fibi.png",
     },
     {
         "de": "Na klar! Ich erstelle dazu eine N:M-Beziehung, damit mehrere Monster an einem Wettbewerb und jedes Monster auch an mehreren Wettbewerben teilnehmen können.",
+        "en": "Sure! I create an N:M relationship so that multiple monsters can participate in one competition and each monster can participate in multiple ones.",
         "left": "avatar_freuend.png", "right": "fibi.png", "me": true,
         "_r": [{
-            "name":["nimmtteil","nehmenteil","teilnahme","teilnehmen"],
+            "name":["nimmtteil","nehmenteil","teilnahme","teilnehmen",
+                "participate","participates","participatein","enter","register","registerfor","attend","takepart","takepartin"],
             "_e":["monster","competition"],
             "card":["N","N"]
         }]
     },
     {
         "de": "Es ist noch wichtig, dass wir speichern, wann sich ein Monster für einen Wettbewerb angemeldet hat, also ein Beziehungsattribut \"Anmeldedatum\" oder sowas.",
+        "en": "It's also important that we store the information when a monster has registered for a competition: a relationship attribute \"registration date\" or something like that.",
         "left": "avatar_freuend.png", "right": "fibi.png",
         "_r": [{
-            "name":["nimmtteil","nehmenteil","teilnahme","teilnehmen"],
+            "name":["nimmtteil","nehmenteil","teilnahme","teilnehmen",
+                "participate","participates","participatein","enter","register","registerfor","attend","takepart","takepartin"],
             "_e":["monster","competition"],
             "card":["N","N"],
-            "_a": [{"name":["anmeldedatum", "angemeldet", "anmeldung", "angemeldetam", "anmeldezeitpunkt", "anmeldezeit", "registriertam", "registrierdatum"]}]
+            "_a": [{"name":["anmeldedatum", "angemeldet", "anmeldung", "angemeldetam", "anmeldezeitpunkt", "anmeldezeit", "registriertam", "registrierdatum","registrierungsdatum",
+                    "registrationdate","registerdate","registrationtime","registertime","signupdate","signuptime","signedupat","signedup","registred"]}]
         }]
     },
     {
         "de": "Trina, Fibi, hier seid ihr ja! Kommt schnell, sonst verpasst ihr die Eröffnung des Monster Parks! Alles ist startbereit, das ER-Diagramm ist fertig!",
+        "en": "Trina, Fibi, there you are! Hurry, or you'll miss the opening of MonstER Park! Everything's ready to go, the ER diagram is finished!",
         "left": "avatar_ueberrascht.png", "right": "bolbo.png",
     },
     {
-        "de": "Danke, dass du das ER-Diagramm erstellt hast und der Monster Park rechtzeitig eröffnen kann! ",
+        "de": "Danke, dass du das ER-Diagramm erstellt hast und der Monster Park rechtzeitig eröffnen kann!",
+        "en": "Thank you for creating the ER Diagram and making it possible that Monster Park opens on time!",
         "left": "avatar_freuend.png", "right": "arthur_frei.png",
     }
 ]
@@ -765,7 +803,7 @@ function check_exercise(continue_button = false) {
     if(current_exercise >= 0) { _paq.push(['trackEvent', 'Game', 'Level '+current_exercise, '']); }
     current_exercise++;
     ex = story[current_exercise];
-    $('#exercise_text').text(ex.de);
+    $('#exercise_text').text(ex[language_code]);
     if(ex.me != undefined && ex.me) {
         $(".text-box-pointer").css("left", 20);
         $(".text-box-pointer-shadow").css("left", 13);
