@@ -457,7 +457,7 @@ story = [
     },
     {
         "de": "Wusstest du, dass es auch Teams gibt? Ein Team hat einen Teamnamen und eine Farbe.",
-        "en": "Did you know that we have teams in MonstER park? A team has a team name and a color.",
+        "en": "Did you know that we have teams in MonstER Park? A team has a team name and a color.",
         "left": "avatar.png", "right": "bolbo.png",
         "_e": [
             {
@@ -903,6 +903,7 @@ $('#certificate_button').click(function() {
                 image: image
             },
             function(data, status){
+                _paq.push(['trackEvent', 'Game', 'Certificate', $('#certificate_input_name').val()]);
                 $('#certificate_open')[0].submit();
             });
     });
