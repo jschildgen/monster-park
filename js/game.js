@@ -903,7 +903,7 @@ $('#certificate_button').click(function() {
                 image: image
             },
             function(data, status){
-                _paq.push(['trackEvent', 'Game', 'Certificate', $('#certificate_input_name').val()]);
+                _paq.push(['trackEvent', 'Game', 'Certificate', data+" ("+$('#certificate_input_name').val()+")"]);
                 $('#certificate_open')[0].submit();
             });
     });
