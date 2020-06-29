@@ -23,7 +23,7 @@ lang_de = {
     "Please choose your language.": "Bitte wähle eine Sprache.",
     "Afterwards, you can continue your game without restarting.": "Danach kannst du das Spiel ganz normal weiterspielen, ohne es neu starten zu müssen.",
     "A learning game for entity-relationship diagrams": "Ein Lernspiel für Entity-Relationship-Diagramme",
-    "%game_info": "Das Spiel wurde an der OTH Regensburg von Prof. Dr. Johannes Schildgen entwickelt. Ein großer Dank geht an Isabell Ruth, die die Grafiken erstellt hat!",
+    "%game_info": "Das Spiel wurde an der OTH Regensburg von Prof. Dr. Johannes Schildgen entwickelt. Ein großer Dank geht an Isabell Wittich, die die Grafiken erstellt hat!",
     "Next": "Weiter",
     "Previous": "Zurück",
     "Continue": "Weiter",
@@ -39,7 +39,7 @@ lang_de = {
 }
 
 lang_en = {
-    "%game_info": "The game was developed at the University of Applied Sciences in Regensburg, Germany by Prof. Dr. Johannes Schildgen. Special thanks go to Isabell Ruth for creating the images!",
+    "%game_info": "The game was developed at the University of Applied Sciences in Regensburg, Germany by Prof. Dr. Johannes Schildgen. Special thanks go to Isabell Wittich for creating the images!",
     "%joyride_info_player": "It's your job to create an entity-relationship diagram for the theme park \"MonstER Park\".",
     "%joyride_info_control": "Use this button to create new entity types, relationships, and also attributes. Later, you'll find more control elements here.",
     "%joyride_info_area": "This is where your ER diagram appears. You can drag and drop items and select them. When you want to delete the element that you've selected, you can press the paper-bin button that will appear on the bottom left. But you can also simply press the Delete key on your keyboard.",
