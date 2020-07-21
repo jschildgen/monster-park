@@ -180,8 +180,8 @@ session_destroy();
     <h2 id="language-modalTitle" class="lang">Change Language</h2>
     <p class="lead lang">Please choose your language.</p>
     <p class="lang">Afterwards, you can continue your game without restarting.</p>
-    <p><a href="javascript:change_language('de'); $('#language-modal').foundation('reveal', 'close');" class="button">Deutsch</a>
-        <a href="javascript:change_language('en'); $('#language-modal').foundation('reveal', 'close');" class="button">English</a>
+    <p><a href="javascript:change_language('de');" class="button">Deutsch</a>
+        <a href="javascript:change_language('en');" class="button">English</a>
         <a class="close-reveal-modal" aria-label="Close">&#215;</a>
 </div>
 

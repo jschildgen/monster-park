@@ -71,6 +71,8 @@ function change_language(new_language_code) {
     if(story != undefined && story[current_exercise] != undefined && story[current_exercise][language_code] != undefined) {
         $('#exercise_text').text(story[current_exercise][language_code]);
     }
+
+    $('#language-modal').foundation('reveal', 'close');
 }
 
 
