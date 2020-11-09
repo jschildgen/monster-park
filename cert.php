@@ -129,7 +129,7 @@ $pdf->deletePage(2);
 //Ausgabe der PDF
 
 //Variante 1: PDF direkt an den Benutzer senden:
-$pdf->Output("Certificate_SQL-Island.pdf", 'I');
+$pdf->Output("Certificate_MonstER-Park.pdf", 'I');
 
 //Variante 2: PDF im Verzeichnis abspeichern:
 //$pdf->Output(dirname(__FILE__).'/'.$pdfName, 'F');
