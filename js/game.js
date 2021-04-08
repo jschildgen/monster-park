@@ -617,7 +617,7 @@ story = [
         "left": "avatar.png", "right": "trina.png", "me": true,
         "_e": [{
             "name": ["competition", "contest", "challenge",
-                "wettbewerb", "turnier"],
+                "wettbewerb", "turnier", "wettbewerbe", "turniere"],
             "_a": [
                 {"name": ["bezeichnung", "name", "description", "title"], "options":["primary"]},
                 {"name": ["datum","tag","wann", "date", "time", "timestamp", "when"], "options":["primary"]}
