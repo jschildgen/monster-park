@@ -540,7 +540,7 @@ story = [
         "left": "avatar_winkend.png", "right": "trina.png", "me": true,
         "_r": [
             {
-                "name": ["istkindvon", "istkind", "sindkindvon", "sindkind", "kindvon", "kind", "eltern", "sindeltern", "elternteil", "sindelternteil", "hatkind", "hatkinder", "habenkinder", "ischild", "ischildof", "arechild", "arechildof", "havechildren", "havechild", "haschildren", "haschild", "child", "children", "parent", "parents", "kids", "kid"],
+                "name": ["istkindvon", "istkind", "sindkindvon", "sindkind", "kindvon", "kind", "eltern", "sindeltern", "elternteil", "sindelternteil", "istelternteil", "hatkind", "hatkinder", "habenkinder", "ischild", "ischildof", "arechild", "arechildof", "havechildren", "havechild", "haschildren", "haschild", "child", "children", "parent", "parents", "kids", "kid"],
                 "_e": ["monster", "monster"],
             }
         ]
