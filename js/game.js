@@ -488,7 +488,7 @@ story = [
         "left": "avatar_freuend.png", "right": "bolbo.png",
         "_r": [
             {
-                "name": ["in", "istin", "sindin", "gehoertzu", "gehoertan", "bestehtaus", "istmitgliedvon", "istmitgliedin", "istmitglied", "mitglied", "mitgliedvon", "mitgliedin", "istteilvon", "on", "ison", "isin", "arein", "areon", "consistof", "consistsof", "memberof", "partof", "arememberof", "arepartof", "within", "kämpftfür", "kämpfenfür"],
+                "name": ["in", "istin", "sindin", "gehoertzu", "gehoertan", "bestehtaus", "umfasst", "istmitgliedvon", "istmitgliedin", "istmitglied", "mitglied", "mitgliedvon", "mitgliedin", "istteilvon", "on", "ison", "isin", "arein", "areon", "consistof", "consistsof", "memberof", "partof", "arememberof", "arepartof", "within", "kämpftfür", "kämpfenfür"],
                 "_e": ["trainer", "team"],
                 "card": ["N", "1"]
             }
