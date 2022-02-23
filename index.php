@@ -54,6 +54,7 @@ session_destroy();
         <li><a href="#" class="medium red button radius lang" id="joyride-button">Game Instructions</a></li>
         <li><a href="#" onClick="$('#restart-modal').foundation('reveal', 'open');" class="medium red button radius lang" id="restart-button">Restart Game</a></li>
         <li><a href="#" onClick="$('#language-modal').foundation('reveal', 'open');" class="medium red button radius lang" id="language-button">Change Language</a></li>
+        <li><a id="sandbox-button" href="#" onClick="$('#sandbox-modal').foundation('reveal', 'open');" class="medium red button radius lang" id="restart-button">Sandbox Mode</a></li>
         <li><a href="#" onClick="$('#info-modal').foundation('reveal', 'open');" class="medium red button radius lang" id="info-button">Info</a></li>
     </ul>
 
@@ -173,6 +174,15 @@ session_destroy();
     <p class="lang">When you restart the game, you have to start all over again.</p>
     <p><a href="#" id="really-restart-button" class="button lang">Yes, restart!</a>
         <a href="#" id="not-restart-button" class="button lang">No, continue the game!</a></p>
+    <a class="close-reveal-modal" aria-label="Close">&#215;</a>
+</div>
+
+<div id="sandbox-modal" class="reveal-modal tiny" data-reveal aria-labelledby="restart-modalTitle" aria-hidden="true" role="dialog">
+    <h2 id="restart-modalTitle" class="lang">Sandbox Mode</h2>
+    <p class="lead lang">Are you sure?</p>
+    <p class="lang">Starting the sandbox mode will stop the game and allows you to freely model an ER diagram of your choice.</p>
+    <p><a href="#" id="really-sandbox-button" class="button lang">Yes, start sandbox mode!</a>
+        <a href="#" id="not-sandbox-button" class="button lang">No, continue the game!</a></p>
     <a class="close-reveal-modal" aria-label="Close">&#215;</a>
 </div>
 

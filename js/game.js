@@ -843,6 +843,31 @@ $('#not-restart-button').click(function(e){
     $('.menu-bg').hide();
 });
 
+$('#really-sandbox-button').click(function() {
+    $(document).foundation('joyride', 'off');
+    $('#sandbox-modal').foundation('reveal', 'close');
+    $('.menu-content').hide();
+    $('.menu-bg').hide();
+    $('#sandbox-button').hide();
+    $('#story').hide();
+    $('.ribbon').css("background", "url('./images/wf/ribbon-tile_w.png') repeat-x");
+    $('.ribbon .left').css("background", "url('./images/wf/ribbon-left_w.png') no-repeat");
+    $('.ribbon .right').css("background", "url('./images/wf/ribbon-right_w.png') no-repeat");
+    
+    $("#erd").detach().appendTo("#screen-index");
+    $("#erd").css("width", "100%");
+    //initERD($("#erd"), $("#screen-index").width(), null);
+
+    $("html,body,#erd").css("background-color", "white");    
+});
+
+$('#not-sandbox-button').click(function(e){
+    $('#sandbox-modal').foundation('reveal', 'close');
+    $('.menu-content').hide();
+    $('.menu-bg').hide();
+});
+
+
 
 function norm(s) {
     if(s==undefined) { return undefined; }

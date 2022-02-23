@@ -705,8 +705,8 @@ graph.on('change:position', function (cell) {
     if (cell.attributes.position.y < 2) {
         cell.attributes.position.y = 2;
     }
-    if (cell.attributes.position.x > 600) {
-        cell.attributes.position.x = 600;
+    if (cell.attributes.position.x > $('#erd').width() - 170) {
+        cell.attributes.position.x = $('#erd').width() - 170;
     }
     if (cell.attributes.position.y > $('#erd').height() - 65) {
         cell.attributes.position.y = $('#erd').height() - 65;
