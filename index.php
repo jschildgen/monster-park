@@ -22,6 +22,7 @@ session_destroy();
         /* tracker methods like "setCustomDimension" should be called before "trackPageView" */
         _paq.push(['trackPageView']);
         _paq.push(['enableLinkTracking']);
+        _paq.push(['disableCookies']);
         (function() {
             var u="https://analytics.t63.de/";
             _paq.push(['setTrackerUrl', u+'matomo.php']);
