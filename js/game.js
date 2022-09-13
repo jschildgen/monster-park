@@ -387,7 +387,7 @@ story = [
         "left": "avatar_freuend.png", "right": "bolbo.png",
     },
     {
-        "de": "Male bitte auf, dass es Trainer geben kann und dass jeder Trainer eine Trainer-ID, einen Spitznamen und ein Geschlecht hat.",
+        "de": "Male bitte auf, dass es Trainer geben. Jeder Trainer hat: Trainer-ID, Spitzname und ein Geschlecht.",
         "en": "Please note that there can be trainers and that each trainer has a trainer ID, nickname and gender.",
         "left": "avatar.png", "right": "bolbo.png",
         "_e": [{
