@@ -31,12 +31,15 @@ if(isset($_GET['id'])) {
     die('invalid request');
 }
 
-
 $stmt = $cert_db->prepare("SELECT name, erd_image FROM certs WHERE cert_id = :c");
 $stmt->execute(array(":c" => $cert_id));
-$stmt->bindColumn(1, $playername);
-$stmt->bindColumn(2, $image, PDO::PARAM_LOB);
-$stmt->fetch(PDO::FETCH_BOUND);
+//$stmt->bindColumn(1, $playername);
+//$stmt->bindColumn(2, $image, PDO::PARAM_LOB);
+
+$res = $stmt->fetch(PDO::FETCH_ASSOC);
+$playername = $res['name'];
+$image = $res['erd_image'];
+
 if($image == null) { http_response_code(400); die("invalid certificate id"); }
 
 if(isset($_GET['check'])) { die("valid"); }
@@ -61,8 +64,6 @@ $html = <<<HTML
 
 </body></html>
 HTML;
-
-
 
 //////////////////////////// Erzeugung eures PDF Dokuments \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 
