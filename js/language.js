@@ -34,8 +34,10 @@ lang_de = {
     "%joyride_info_control": "Über diese Buttons erstellst du neue Entitätstypen, Beziehungen und auch Attribute. Später findest du in dieser Leiste noch weitere Steuerelemente.",
     "%joyride_info_area": "Hier entsteht dein ER-Diagramm. Du kannst Elemente verschieben und auswählen. Wenn du ein ausgewähltes Element löschen willst, siehst du unten links einen Papierkorb-Knopf. Du kannst aber auch einfach die Entf-Taste auf der Tastatur drücken.",
     "%joyride_info_menu": "Über dieses Menü hast du ja schon die Spielanleitung geöffnet. Dort kannst du auch die Sprache ändern oder das Spiel neustarten.",
-    "%joyride_info_go": "Jetzt bist du dran! Probiere einfach alles aus. Wenn du eine Aufgabe gelöst hast, geht das Spiel von selbst weiter. Wenn du jedoch einen roten Weiter-Knopf siehst, musst du den zuerst drücken. Viel Spaß beim MonstER-Park-Lernspiel!"
-
+    "%joyride_info_go": "Jetzt bist du dran! Probiere einfach alles aus. Wenn du eine Aufgabe gelöst hast, geht das Spiel von selbst weiter. Wenn du jedoch einen roten Weiter-Knopf siehst, musst du den zuerst drücken. Viel Spaß beim MonstER-Park-Lernspiel!",
+    "Sandbox Mode": "Sandbox-Modus",
+    "Starting the sandbox mode will stop the game and allows you to freely model an ER diagram of your choice.": "Wenn du den Sandbox-Modus startest, wird das Spiel beendet und du kannst frei ein beliebiges ER-Diagramm erstellen.", 
+    "Yes, start sandbox mode!": "Ja, Sandbox-Modus starten!",
 }
 
 lang_en = {
