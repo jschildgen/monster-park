@@ -94,7 +94,7 @@ session_destroy();
                         <a id="continue_button" class="large red button radius right lang">Continue</a>
                         <div id="certificate_form" style="display: none">
                             <label for="certificate_input_name" class="lang" style="color:white">Your Name:</label><br>
-                            <input type="text" id="certificate_input_name" style="width:95%"><br>
+                            <input type="text" id="certificate_input_name" style="width:95%" maxlength="60"><br>
                             <form action="cert.php" method="get" target="_blank" id="certificate_open"></form>
                             <a id="certificate_button" class="large green button radius right lang">Certificate</a>
                         </div>

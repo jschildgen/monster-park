@@ -13,13 +13,13 @@ if(isset($_GET['id'])) {
    $cert_id = $_GET['id'];
 } elseif(isset($_POST['playername']) && isset($_POST['image'])) {
     // store certificate
+    $playername = $_POST['playername'];
+    $playername = substr(strip_tags($playername), 0, 60);
     $cert_id = isset($_SESSION['id']) ? $_SESSION['id'] : substr(md5(uniqid("monster")),-10);
     $stmt = $cert_db->prepare('INSERT INTO certs(cert_id, name, erd_image) VALUES(:c, :n, :i) ON CONFLICT(cert_id) DO UPDATE SET name = :n, erd_image = :i');
     $stmt->bindValue(':c', $cert_id);
-    $stmt->bindValue(':n', $_POST['playername']);
+    $stmt->bindValue(':n', $playername);
     $stmt->bindValue(':i', base64_decode(str_replace('data:image/png;base64,','', $_POST['image'])), PDO::PARAM_LOB);
-    //$stmt->bindValue(':i', $_POST['image']);
-    //$stmt->execute(array(":c" => $cert_id, ":n" => $_POST['playername'], ":i" => base64_decode($_POST['image'])));
     $stmt->execute();
     echo $cert_id;
     $_SESSION['id'] = $cert_id;
